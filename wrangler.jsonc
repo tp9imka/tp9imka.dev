@@ -1,0 +1,10 @@
+{
+  // Static-assets-only Worker: serves everything in ./public
+  // (index.html, favicon.svg, robots.txt, sitemap.xml) and applies
+  // the security headers / CSP defined in public/_headers.
+  "name": "tp9imka-dev",
+  "compatibility_date": "2026-06-24",
+  "assets": {
+    "directory": "./public"
+  }
+}

@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tp9imka</title>
+<meta name="description" content="Ivan Antsimonau (tp9imka) — building Flutter packages for memory safety and application security.">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://tp9imka.dev/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tp9imka.dev/">
+<meta property="og:title" content="tp9imka">
+<meta property="og:description" content="Ivan Antsimonau (tp9imka) — building Flutter packages for memory safety and application security.">
+<meta name="twitter:card" content="summary">
+<script>try{var t=localStorage.getItem('tp9imka-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<style>
+  :root {
+    --bg:        oklch(0.986 0.003 95);
+    --text:      oklch(0.27 0.01 260);
+    --muted:     oklch(0.50 0.012 260);
+    --faint:     oklch(0.70 0.010 260);
+    --rule:      oklch(0.90 0.006 260);
+    --rule-soft: oklch(0.93 0.005 260);
+    --accent:    oklch(0.55 0.12 240);
+    --pending:   oklch(0.66 0.11 70);
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  /* Dark tokens, shared by system preference and the explicit toggle. */
+  :root[data-theme="dark"],
+  :root.dark-tokens {
+    --bg:        oklch(0.19 0.012 260);
+    --text:      oklch(0.93 0.006 250);
+    --muted:     oklch(0.72 0.012 255);
+    --faint:     oklch(0.55 0.012 258);
+    --rule:      oklch(0.33 0.012 260);
+    --rule-soft: oklch(0.26 0.012 260);
+    --accent:    oklch(0.74 0.12 230);
+    --pending:   oklch(0.80 0.10 78);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        oklch(0.19 0.012 260);
+      --text:      oklch(0.93 0.006 250);
+      --muted:     oklch(0.72 0.012 255);
+      --faint:     oklch(0.55 0.012 258);
+      --rule:      oklch(0.33 0.012 260);
+      --rule-soft: oklch(0.26 0.012 260);
+      --accent:    oklch(0.74 0.12 230);
+      --pending:   oklch(0.80 0.10 78);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    padding: max(24px, env(safe-area-inset-top)) 24px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .manifest {
+    width: 100%;
+    max-width: 470px;
+  }
+
+  h1 {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: clamp(1.75rem, 7vw, 2.125rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .name {
+    margin: 0.65rem 0 0;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+  .tagline {
+    margin: 1.4rem 0 0;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 42ch;
+    text-wrap: pretty;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.4rem;
+    margin-top: 1.9rem;
+    font-family: var(--mono);
+    font-size: 0.875rem;
+  }
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .links a .arrow {
+    font-size: 0.75rem;
+    color: var(--faint);
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+  .links a:hover,
+  .links a:focus-visible { color: var(--accent); border-bottom-color: var(--accent); }
+  .links a:hover .arrow,
+  .links a:focus-visible .arrow { color: var(--accent); transform: translate(2px, -2px); }
+  .links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 1px; }
+
+  .ledger { margin-top: 2.8rem; }
+  .ledger-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+  .ledger ul { list-style: none; margin: 0; padding: 0; }
+  .pkg {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 1rem 0;
+  }
+  .pip {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--pending);
+    flex: none;
+    animation: pip 2.4s ease-in-out infinite;
+  }
+  .pkg-name { font-family: var(--mono); font-size: 0.875rem; color: var(--faint); }
+  .pkg-status { margin-left: auto; font-family: var(--mono); font-size: 0.8125rem; color: var(--faint); }
+
+  .theme-toggle {
+    position: fixed;
+    top: max(20px, env(safe-area-inset-top));
+    right: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 34px;
+    background: none;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.4rem 0.75rem;
+    transition: border-color 0.15s ease;
+  }
+  .theme-toggle .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+  .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  footer {
+    margin-top: 3.5rem;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    color: var(--faint);
+  }
+
+  @keyframes pip { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.78); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+  <button class="theme-toggle" type="button" aria-label="Switch colour theme"><span class="dot" aria-hidden="true"></span><span class="theme-label">light</span></button>
+
+  <main class="manifest">
+    <header>
+      <h1>tp9imka</h1>
+      <p class="name">Ivan Antsimonau</p>
+      <p class="tagline">Building software for the future…</p>
+    </header>
+
+    <nav class="links" aria-label="Profiles">
+      <a href="https://pub.dev/publishers/tp9imka.dev/packages" rel="me">pub.dev<span class="arrow" aria-hidden="true">↗</span></a>
+      <a href="https://github.com/tp9imka" rel="me">GitHub<span class="arrow" aria-hidden="true">↗</span></a>
+    </nav>
+
+    <section class="ledger" aria-label="Packages">
+      <div class="ledger-head"><span>Packages</span><span>01 pending</span></div>
+      <ul>
+        <li class="pkg">
+          <span class="pip" aria-hidden="true"></span>
+          <span class="pkg-name">first package</span>
+          <span class="pkg-status">shipping soon</span>
+        </li>
+      </ul>
+    </section>
+
+    <footer>Verified publisher · tp9imka.dev</footer>
+  </main>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var KEY = 'tp9imka-theme';
+      var btn = document.querySelector('.theme-toggle');
+      var label = btn.querySelector('.theme-label');
+      function isDark() {
+        var t = root.getAttribute('data-theme');
+        if (t) return t === 'dark';
+        return matchMedia('(prefers-color-scheme: dark)').matches;
+      }
+      function sync() {
+        var dark = isDark();
+        label.textContent = dark ? 'dark' : 'light';
+        btn.setAttribute('aria-pressed', String(dark));
+      }
+      btn.addEventListener('click', function () {
+        var next = isDark() ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem(KEY, next); } catch (e) {}
+        sync();
+      });
+      matchMedia('(prefers-color-scheme: dark)').addEventListener('change', sync);
+      sync();
+    })();
+  </script>
+</body>
+</html>

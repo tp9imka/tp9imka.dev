@@ -1,0 +1,9 @@
+# Cloudflare Pages headers — applied to every response.
+# https://developers.cloudflare.com/pages/configuration/headers/
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-SOeEBfZAGGkIW1/iN2e+ZePERonA69e+bgBfwEnJyys=' 'sha256-pyWuM68/aLFPMr5TpdE3DXBNkLibCiSIMCaEK5dFl6Y='; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

@@ -141,19 +141,38 @@
   .ledger ul { list-style: none; margin: 0; padding: 0; }
   .pkg {
     display: flex;
-    align-items: center;
-    gap: 0.875rem;
-    padding: 1rem 0;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    padding: 0.95rem 0;
   }
-  .pip {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--pending);
-    flex: none;
-    animation: pip 2.4s ease-in-out infinite;
+  .pkg--published { border-bottom: 1px solid var(--rule-soft); }
+  .pkg--published:last-child { border-bottom: 0; }
+  .pkg-name {
+    order: 1;
+    font-family: var(--mono);
+    font-size: 0.875rem;
+    color: var(--accent);
+    text-decoration: none;
   }
-  .pkg-name { font-family: var(--mono); font-size: 0.875rem; color: var(--faint); }
-  .pkg-status { margin-left: auto; font-family: var(--mono); font-size: 0.8125rem; color: var(--faint); }
+  .pkg-name:hover,
+  .pkg-name:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+  .pkg-name:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 1px; }
+  .pkg-meta {
+    order: 2;
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--faint);
+    white-space: nowrap;
+  }
+  .pkg-desc {
+    order: 3;
+    flex: 1 1 100%;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
 
   .theme-toggle {
     position: fixed;
@@ -190,7 +209,6 @@
     color: var(--faint);
   }
 
-  @keyframes pip { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.78); } }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
@@ -212,12 +230,42 @@
     </nav>
 
     <section class="ledger" aria-label="Packages">
-      <div class="ledger-head"><span>Packages</span><span>01 pending</span></div>
+      <div class="ledger-head"><span>Packages</span><span>07 published</span></div>
       <ul>
-        <li class="pkg">
-          <span class="pip" aria-hidden="true"></span>
-          <span class="pkg-name">first package</span>
-          <span class="pkg-status">shipping soon</span>
+        <li class="pkg pkg--published">
+          <a class="pkg-name" href="https://pub.dev/packages/flutter_leak_radar">flutter_leak_radar</a>
+          <span class="pkg-desc">On-device memory-leak detector for Flutter.</span>
+          <span class="pkg-meta">v0.3.0 ↗</span>
+        </li>
+        <li class="pkg pkg--published">
+          <a class="pkg-name" href="https://pub.dev/packages/flutter_perf_radar">flutter_perf_radar</a>
+          <span class="pkg-desc">On-device performance and stability tracer.</span>
+          <span class="pkg-meta">v0.1.2 ↗</span>
+        </li>
+        <li class="pkg pkg--published">
+          <a class="pkg-name" href="https://pub.dev/packages/radarscope">radarscope</a>
+          <span class="pkg-desc">Radar suite umbrella: one import, one init.</span>
+          <span class="pkg-meta">v0.1.4 ↗</span>
+        </li>
+        <li class="pkg pkg--published">
+          <a class="pkg-name" href="https://pub.dev/packages/leak_graph">leak_graph</a>
+          <span class="pkg-desc">Heap-snapshot loading and retaining-path analysis.</span>
+          <span class="pkg-meta">v0.3.0 ↗</span>
+        </li>
+        <li class="pkg pkg--published">
+          <a class="pkg-name" href="https://pub.dev/packages/radar_trace">radar_trace</a>
+          <span class="pkg-desc">Pure-Dart tracer with spans and latency histograms.</span>
+          <span class="pkg-meta">v0.3.0 ↗</span>
+        </li>
+        <li class="pkg pkg--published">
+          <a class="pkg-name" href="https://pub.dev/packages/radar_ui">radar_ui</a>
+          <span class="pkg-desc">Shared design system for the Radar suite.</span>
+          <span class="pkg-meta">v0.3.1 ↗</span>
+        </li>
+        <li class="pkg pkg--published">
+          <a class="pkg-name" href="https://pub.dev/packages/flutter_leak_radar_lint">flutter_leak_radar_lint</a>
+          <span class="pkg-desc">Lint rules for leak-prone Flutter patterns.</span>
+          <span class="pkg-meta">v0.1.2 ↗</span>
         </li>
       </ul>
     </section>

@@ -1,84 +1,52 @@
 # tp9imka.dev
 
-Personal landing page for **[tp9imka.dev](https://tp9imka.dev)** — Ivan Antsimonau
-(`tp9imka`), building Flutter packages for memory safety and application security.
+Personal site of Ivan Antsimonau (`tp9imka`): agent crews that ship on their own,
+and the gates that tell them no. The hero lets you play an agent that cuts corners
+and try to get a change merged. Every attempt ends in a real refusal.
 
-A single static page that makes the domain look intentional and points to the
-[pub.dev verified publisher](https://pub.dev/publishers/tp9imka.dev/packages) and
-[GitHub](https://github.com/tp9imka). It is designed to grow into a small index of
-published packages with no redesign — new entries just slot into the "Packages"
-ledger.
+Also the domain of the [pub.dev verified publisher](https://pub.dev/publishers/tp9imka.dev/packages).
 
 ## Stack
 
 Astro (static output) + TypeScript. Animations are small modules bundled as
 external files, so the CSP keeps `script-src 'self'`. Fonts are self-hosted via
-@fontsource. `npm run build` builds to `dist/` and runs a leak check;
-`npm test` runs the unit tests (Vitest).
-
-Deploy: Cloudflare Workers Builds runs `npx wrangler deploy`, which runs the
-`build.command` from `wrangler.jsonc` and serves `./dist` as static assets.
-A push to `main` goes live.
-
-## Structure
+@fontsource. No analytics, no third-party scripts.
 
 ```
-public/              ← deploy root (this is what Cloudflare Pages serves)
-├── index.html       ← the page
-├── favicon.svg
-├── robots.txt
-├── sitemap.xml
-└── _headers         ← security headers + CSP (Cloudflare Pages)
-docs/design/         ← original design handoff (reference, NOT deployed)
+src/
+  components/   page sections (Hero, WallOfNo, ProductSim, ...)
+  content/      systems/*.md and notes/*.md (content collections)
+  data/         evidence.ts and gates.ts - every claim, keyed by a private source id
+  scripts/      hero engine (pure) + DOM layers, product sim, injection demo
+  styles/       tokens.css (dark default, light variant) and global.css
+public/         _headers (CSP and security headers), cv.pdf, theme-boot.js
+scripts/        leak-check.mjs, build-cv.sh
+test/           Vitest unit tests for the pure cores, data and config
 ```
 
-`public/index.html` is the source of truth for the live site. `docs/design/` holds
-the original design deliverable and the multi-state design document; see
-`docs/design/README.md` for the full design spec, tokens, and the future
-package-list layout.
+## Commands
 
-## Local preview
-
-No tooling required:
-
-```bash
-cd public
-python3 -m http.server 8000
-# open http://localhost:8000
+```
+npm install
+npm run dev       # local dev server
+npm test          # unit tests
+npm run build     # build to dist/ and run the leak check
+npm run preview   # serve dist/
 ```
 
-Note: the `_headers` file (CSP, HSTS, etc.) is applied by Cloudflare Pages, not by
-`python3 -m http.server`, so security headers won't show in this local preview.
+`scripts/leak-check.mjs` fails the build if a name from a local, gitignored
+`.banned-names` file appears in `src/` or `dist/`. Without the file it checks
+banned copy words only and prints a warning.
 
-## Deploy — Cloudflare Pages (free tier)
+## Deploy
 
-Connect this GitHub repo in the Cloudflare Pages dashboard and use:
+Cloudflare Workers Builds runs `npx wrangler deploy` on every push to `main`.
+Wrangler runs the `build.command` from `wrangler.jsonc` and serves `./dist` as
+static assets, with `404.html` for unknown paths and `_headers` applied to every
+response. A push to `main` goes live.
 
-| Setting                  | Value      |
-| ------------------------ | ---------- |
-| Framework preset         | None       |
-| Build command            | *(empty)*  |
-| Build output directory   | `public`   |
+## Evidence rule
 
-No environment variables. Every push to `main` redeploys. Then add `tp9imka.dev`
-as a custom domain in the Pages project (the DNS lives in Cloudflare already).
-
-## Security headers
-
-`public/_headers` ships a strict CSP (hash-pinned inline scripts, no
-`unsafe-inline` for scripts), HSTS with preload, `nosniff`, `X-Frame-Options: DENY`,
-a locked-down `Referrer-Policy`, and a restrictive `Permissions-Policy`. If you edit
-the inline `<script>` blocks in `index.html`, recompute the `script-src` hashes:
-
-```bash
-python3 - <<'PY'
-import re, hashlib, base64
-data = open('public/index.html','rb').read().decode()
-for m in re.finditer(r'<script\b[^>]*>(.*?)</script>', data, re.S):
-    print("'sha256-" + base64.b64encode(hashlib.sha256(m.group(1).encode()).digest()).decode() + "'")
-PY
-```
-
-## License
-
-[MIT](LICENSE)
+Every number on the site maps to a row in a private inventory through its `src`
+id. Each item has a `published` flag; set it to `false` to pull a claim. Values
+inside a component marked SIMULATION are illustrative.

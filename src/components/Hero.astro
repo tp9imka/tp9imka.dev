@@ -1,107 +1,99 @@
 ---
 const email = 'tp9imka@gmail.com';
-const refusals = [
-  ['Push after approval', 'Verdicts bound to the old head go VOID. No receipt for the new head => gate shut.'],
-  ['Skip QA', 'No QA receipt for the head => the merge guard refuses.'],
-  ['Edit the guard', 'The guard cannot read the checks => fail closed.'],
-  ['Retry until green', 'Same check red on 3 heads => the driver parks it and re-plans.'],
-];
 ---
 <section class="hero" id="hero" aria-labelledby="hero-h1">
-  <span class="simtag hero-sim">SIMULATION</span>
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <p class="eyebrow">Ivan Antsimonau · principal engineer, agentic systems</p>
-      <h1 id="hero-h1" class="hero-h1 struck">Go on.<br />Try to <span class="m">merge.</span></h1>
-      <p class="hero-sub">I lead agent crews that ship on their own, and I build the gates that tell them no. <b>You play the agent that cuts corners.</b> The gates are the ones I run on real work.</p>
-      <div class="ctas">
-        <a class="btn primary" href="/cv.pdf">Download CV</a>
-        <span class="email"><span id="hero-email" class="mono">{email}</span><button type="button" class="btn ghost js-only" data-copy={email} data-copy-target="hero-email">Copy email</button></span>
-      </div>
-      <p class="ticker mono" id="hero-ticker">sweep 10:40 · no LLM</p>
-      <div class="play js-only" id="hero-play" data-on="0">
-        <p class="play-k mono">Your move. Try to get it merged:</p>
-        <div class="play-row">
-          <button type="button" data-attempt="push">Push after approval</button>
-          <button type="button" data-attempt="skip-qa">Skip QA</button>
-          <button type="button" data-attempt="edit-guard">Edit the guard</button>
-          <button type="button" data-attempt="retry">Retry until green</button>
+  <div class="wrap">
+    <div class="fig"><span>fig. 01 - the crew</span><span class="tag">SIMULATION · PLAYABLE</span></div>
+    <div class="hero-top">
+      <h1 id="hero-h1" class="dare hero-h1">Go on.<br />Try to <span class="m">merge.</span></h1>
+      <div class="id">
+        <p class="who"><b>Ivan Antsimonau</b><br />Principal engineer · agentic engineering</p>
+        <p class="where mono">Abu Dhabi, GMT+4 · open to UAE and EU-remote</p>
+        <p class="line">My agent crews ship on their own, in production at a secure-communications company and in my own product. The gates decide what gets merged.</p>
+        <p class="line">Led teams of up to 10 people. Now I run agent crews next to them.</p>
+        <div class="ctas">
+          <a class="cvbtn" href="/cv.pdf">CV - PDF, 2 pages</a>
+          <button type="button" class="mailbtn" data-copy={email}>{email}</button>
         </div>
-        <p class="sr-only" id="hero-live" aria-live="polite"></p>
-        <p class="score mono">Attempts <b id="attempts">0</b> · Merged <b>0</b></p>
       </div>
-      <ul class="no-js refusal-list">
-        {refusals.map(([a, r]) => <li><b>{a}:</b> {r}</li>)}
-      </ul>
     </div>
-    <div class="pr" id="pr-card">
-      <div class="pr-top mono"><span>PR #412 · crew board</span><span id="pr-headwrap">head <b id="pr-head">7be204</b></span></div>
-      <p class="pr-title">fix: session restore drops drafts</p>
-      <div class="chips mono">
-        <span class="chip ok" id="chip-ci">CI green</span>
-        <span class="chip void" id="chip-review">Review PASS @a3f9c1</span>
-        <span class="chip void" id="chip-qa">QA PASS @a3f9c1</span>
-      </div>
-      <p class="guard mono" id="guard">merge guard: all checks green => allow</p>
-      <div class="merge shut" id="merge">REFUSED</div>
-      <p class="refusal mono" id="refusal">VOID: verdicts were for a3f9c1, head is 7be204. No receipt for the head => gate shut.</p>
-    </div>
+    <p class="cap1 drag-hint"><b>Drag any card into MERGED.</b> The guard will tell you what is missing.</p>
+  </div>
+  <div class="wrap-wide">
+    <div class="board" id="board" aria-label="Agent crew board. Drag a card into the merged lane to try to merge it."></div>
+    <ul class="no-js refusals-static">
+      <li>Push after approval: the verdicts bound to the old commit go void.</li>
+      <li>Skip QA: no QA receipt for the head, the merge guard refuses.</li>
+      <li>Same check red on 3 heads: the driver parks it and re-plans.</li>
+    </ul>
   </div>
 </section>
 
 <script>
-  import { initHero } from '../scripts/hero/hero';
+  import { initCrewBoard } from '../scripts/crew/board';
   import { initCopyButtons } from '../scripts/copy';
-  initHero();
+  const board = document.getElementById('board');
+  if (board) initCrewBoard(board, document.getElementById('hero-h1'));
   initCopyButtons(document.getElementById('hero') ?? document);
 </script>
 
 <style is:global>
-  .hero { position: relative; overflow: hidden; padding-block: 56px 72px; }
-  .hero-sim { position: absolute; top: 14px; right: var(--gutter-r); color: var(--muted); z-index: 4; }
-  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: start; }
-  @media (max-width: 900px) { .hero-grid { grid-template-columns: minmax(0, 1fr); } }
-  .hero-h1 { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: clamp(3.6rem, 11vw, 9.6rem); line-height: 0.86; letter-spacing: -0.01em; margin-top: 14px; }
+  .hero { padding-block: 36px 64px; }
+  .hero-top { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 32px; align-items: end; }
+  @media (max-width: 900px) { .hero-top { grid-template-columns: minmax(0, 1fr); } }
+  .hero-h1 { font-size: clamp(3.4rem, 10.5vw, 10.5rem); }
   .hero-h1 .m { position: relative; display: inline-block; }
-  .hero-h1 .m::after { content: ""; position: absolute; left: -2%; top: 52%; height: 0.11em; width: 0; background: var(--red); transition: width .18s steps(3); }
-  .hero-h1.struck .m::after { width: 104%; }
-  .hero-sub { font-size: 1.12rem; max-width: 46ch; margin-top: 22px; color: var(--muted); }
-  .hero-sub b { color: var(--fg); font-weight: 600; }
-  .ctas { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; margin-top: 26px; }
-  .email { display: inline-flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 0.9rem; }
-  .ticker { font-size: 0.75rem; color: var(--faint); margin-top: 22px; }
-  .play { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
-  html.js .play[data-on="0"] { visibility: hidden; }
-  .play-k { font-size: 0.78rem; color: var(--muted); }
-  .play-row { display: flex; flex-wrap: wrap; gap: 8px; }
-  .play-row button { font-family: var(--mono); font-size: 0.82rem; background: transparent; color: var(--yellow); border: 1px solid var(--yellow); padding: 8px 12px; min-height: 44px; cursor: pointer; }
-  .play-row button:hover { background: var(--yellow); color: var(--on-yellow); }
-  .score { font-size: 0.85rem; }
-  .score b { color: var(--red); }
-  .refusal-list { margin: 22px 0 0; padding-left: 1.1em; color: var(--muted); display: flex; flex-direction: column; gap: 6px; font-size: 0.95rem; }
-  .refusal-list b { color: var(--fg); }
-  .pr { border: 1px solid var(--line); background: var(--surface); padding: 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0; margin-top: 24px; }
-  .pr-top { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 0.78rem; color: var(--muted); }
-  .pr-top b { color: var(--yellow); }
-  .pr-title { font-weight: 600; font-size: 1.15rem; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip { font-size: 0.78rem; padding: 5px 9px; border: 1px solid var(--line); }
-  .chip.ok { border-color: var(--green); color: var(--green); }
-  .chip.bad { border-color: var(--red); color: var(--red); }
-  .chip.void { color: var(--faint); text-decoration: line-through; border-style: dashed; }
-  .guard { font-size: 0.78rem; color: var(--muted); border-top: 1px dashed var(--line); padding-top: 10px; }
-  .guard.bad { color: var(--red); }
-  .merge { font-family: var(--display); font-weight: 900; font-size: 2.1rem; letter-spacing: .04em; padding: 10px 14px; text-align: center; background: var(--green); color: var(--on-green); }
-  .merge.shut { background: repeating-linear-gradient(-45deg, var(--red) 0 14px, var(--red-deep) 14px 28px); color: #F4F1EA; text-shadow: 0 1px 0 #0B0B0C; }
-  .refusal { font-size: 0.8rem; color: var(--red); min-height: 2.8em; }
-  .flash { animation: flash .12s steps(1) 2; }
-  @keyframes flash { 50% { background: var(--red); color: var(--bg); } }
-  .shake { animation: shake .1s steps(2) 2; }
-  @keyframes shake { 0% { transform: translateX(-4px); } 100% { transform: translateX(4px); } }
-  .cur { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 5; pointer-events: none; transition: transform 0.75s cubic-bezier(.2,.8,.2,1); will-change: transform; display: none; }
-  .hero.live .cur { display: block; }
-  .cur svg { position: absolute; left: -2px; top: -2px; width: 20px; height: 24px; transition: transform .12s; }
-  .cur .cur-lbl { position: absolute; left: 16px; top: 18px; white-space: nowrap; font-family: var(--mono); font-size: 0.7rem; font-weight: 600; padding: 3px 8px; }
-  .cur.press svg { transform: scale(.82); }
-  @media (max-width: 520px) { .cur .cur-lbl { font-size: 0.62rem; } }
+  .hero-h1 .m::after { content: ""; position: absolute; left: -1%; top: 50%; height: .1em; width: 0; background: var(--red); transition: width .12s steps(2); }
+  .hero-h1.struck .m::after { width: 102%; }
+  .id { display: flex; flex-direction: column; gap: 10px; padding-bottom: 10px; }
+  .id .who { font-size: 1.05rem; line-height: 1.35; }
+  .id .who b { font-family: var(--display); font-weight: 900; font-size: 1.7rem; text-transform: uppercase; letter-spacing: .01em; }
+  .id .where { font-size: .78rem; color: var(--muted); }
+  .id .line { color: var(--muted); font-size: .98rem; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-top: 6px; }
+  .cvbtn { background: var(--yellow); color: var(--on-yellow); font-family: var(--mono); font-weight: 700; font-size: .85rem; text-decoration: none; padding: 11px 16px; }
+  .mailbtn { font-family: var(--mono); font-size: .85rem; background: none; border: 0; border-bottom: 1px solid var(--line); color: var(--fg); padding: 6px 0; cursor: pointer; }
+  .drag-hint { margin-top: 26px; }
+  .drag-hint b { color: var(--yellow); font-weight: 600; }
+  .wrap-wide { padding-left: var(--gutter); padding-right: var(--gutter-r); margin-top: 14px; }
+  .refusals-static { color: var(--muted); font-size: .95rem; }
+  .board { position: relative; width: 100%; height: max(520px, 64svh); background: var(--panel); border: 1px solid var(--line); touch-action: pan-y; user-select: none; overflow: hidden; }
+  html:not(.js) .board { display: none; }
+  .board .lane { position: absolute; top: 0; bottom: 0; }
+  .board .lane h4 { margin: 0; padding: 14px 16px; font-family: var(--mono); font-size: .72rem; letter-spacing: .18em; color: var(--muted); font-weight: 600; }
+  .board .lane.merge { background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--green) 5%, transparent) 0 12px, transparent 12px 24px); }
+  .board .guard { position: absolute; top: 0; bottom: 0; width: 6px; background: var(--line); transition: background .1s; }
+  .board .guard::after { content: "MERGE GUARD"; position: absolute; left: 12px; bottom: 14px; font-family: var(--mono); font-size: .6rem; letter-spacing: .2em; color: var(--faint); writing-mode: vertical-rl; transform: rotate(180deg); }
+  .board .guard.slam { background: var(--red); box-shadow: 0 0 40px color-mix(in srgb, var(--red) 60%, transparent); }
+  .board .guard.ok { background: var(--green); box-shadow: 0 0 30px color-mix(in srgb, var(--green) 50%, transparent); }
+  .board .card { position: absolute; left: 0; top: 0; background: var(--panel2); border: 1px solid var(--line); padding: 12px 14px; font-family: var(--mono); font-size: .8rem; cursor: grab; transition: transform .6s cubic-bezier(.2,.8,.2,1), border-color .2s, box-shadow .2s; will-change: transform; color: var(--fg); }
+  .board .card.dragging { transition: none; cursor: grabbing; z-index: 30; box-shadow: 0 18px 40px rgba(0,0,0,.45); border-color: var(--yellow); }
+  .board .card .t { font-family: var(--body); font-weight: 700; font-size: 1.02rem; line-height: 1.2; display: block; }
+  .board .card .meta { display: flex; justify-content: space-between; color: var(--muted); font-size: .72rem; margin-top: 6px; }
+  .board .card .sha { color: var(--yellow); }
+  .board .card .diff { margin-top: 8px; display: flex; flex-direction: column; gap: 2px; font-size: .78rem; }
+  .board .card .diff span { white-space: nowrap; overflow: hidden; }
+  .board .card .diff .a { color: var(--green); } .board .card .diff .d { color: var(--red); }
+  .board .card .bar { height: 3px; background: var(--line); margin-top: 10px; } .board .card .bar i { display: block; height: 100%; width: 0; background: var(--green); }
+  .board .card .stamps { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .board .stamp { font-size: .68rem; font-weight: 700; padding: 2px 7px; border: 1.5px solid currentColor; letter-spacing: .04em; }
+  .board .stamp.pass { color: var(--green); } .board .stamp.fail { color: var(--red); } .board .stamp.rev { color: var(--fg); }
+  .board .stamp.void { color: var(--faint); text-decoration: line-through; border-style: dashed; }
+  .board .card.failed { border-color: var(--red); box-shadow: -14px 0 24px -12px color-mix(in srgb, var(--red) 70%, transparent); }
+  .board .card.mini { padding: 7px 12px; cursor: default; }
+  .board .card.mini .meta, .board .card.mini .diff, .board .card.mini .bar, .board .card.mini .stamps { display: none; }
+  .board .card.mini .t { font-size: .82rem; font-weight: 500; color: var(--muted); padding-right: 54px; }
+  .board .card.mini::after { content: "merged"; position: absolute; right: 10px; top: 8px; font-size: .62rem; color: var(--green); }
+  .board .cur { position: absolute; left: 0; top: 0; z-index: 25; pointer-events: none; transition-property: transform; transition-timing-function: cubic-bezier(.3,.7,.2,1); will-change: transform; }
+  .board .cur svg { width: 20px; height: 24px; display: block; transition: transform .12s; }
+  .board .cur.press svg { transform: scale(.78); }
+  .board .cur .tag { position: absolute; left: 22px; top: 22px; white-space: nowrap; font-family: var(--mono); font-size: .66rem; font-weight: 700; padding: 3px 8px; color: #0B0B0C; }
+  .board .cur.ghost { opacity: .85; }
+  .board .you { position: absolute; left: 0; top: 0; z-index: 40; pointer-events: none; font-family: var(--mono); font-size: .66rem; font-weight: 700; padding: 3px 8px; background: var(--yellow); color: #0B0B0C; opacity: 0; transition: opacity .2s; white-space: nowrap; }
+  @media (hover: hover) and (pointer: fine) { .board:hover .you { opacity: 1; } }
+  .board .verdict { position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%) scale(.9); font-size: clamp(2.4rem, 6vw, 5rem); text-align: center; opacity: 0; pointer-events: none; z-index: 50; text-shadow: 0 4px 30px rgba(0,0,0,.7); transition: opacity .15s, transform .15s; }
+  .board .verdict.on { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  .board .verdict.okv { color: var(--green); }
+  .board .hud { position: absolute; left: 16px; bottom: 12px; font-family: var(--mono); font-size: .72rem; color: var(--muted); display: flex; gap: 18px; z-index: 5; flex-wrap: wrap; }
+  .board .hud b { color: var(--fg); } .board .hud .r b { color: var(--red); }
 </style>

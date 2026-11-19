@@ -1,5 +1,5 @@
 // Every item maps to a row in the private inventory via `src`. Never put source paths here.
-export type EvidenceKind = 'shipper' | 'owed' | 'depth' | 'oss';
+export type EvidenceKind = 'proof' | 'shipper' | 'owed' | 'depth' | 'oss';
 export type Evidence = {
   id: string;
   src: string;
@@ -12,6 +12,14 @@ export type Evidence = {
 };
 
 export const evidence: Evidence[] = [
+  { id: 'proof-sweep', src: 'crew-sweep', kind: 'proof', published: true,
+    value: '0', label: 'LLM calls in the PR sweep', counts: 'The scheduler is plain code. Models are spent on judgement, not on polling.' },
+  { id: 'proof-driver', src: 'crew-57-86', kind: 'proof', published: true,
+    value: '57 of 86', label: 'issues closed by the driver agent', counts: 'Under a delivery-speed bar, Oct 2026.' },
+  { id: 'proof-eval', src: 'oss-navindex', kind: 'proof', published: true,
+    value: '8.3%', label: 'wrong records, found by a seeded eval', counts: 'Agent-built knowledge base, sample of 60. Public.' },
+  { id: 'proof-latency', src: 'perf', kind: 'proof', published: true,
+    value: '10s => 200ms', label: 'latency, measured before claiming', counts: 'Production mobile client under load.' },
   { id: 'driver-closed', src: 'crew-57-86', kind: 'shipper', published: true,
     value: '57 of 86', label: 'issues closed by the driver agent',
     counts: 'Closed under a delivery-speed bar. A count of work done, not a success rate.' },

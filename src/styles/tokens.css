@@ -7,12 +7,15 @@
   --muted: #9a978f;
   --faint: #82807D;
   --line: #2A2A2E;
+  --panel: #111113;
+  --panel2: #18181b;
   --red: #FF3B1F;
   --red-deep: #2a0a05;
   --yellow: #FFD400;
   --green: #25E08A;
   --on-yellow: #0B0B0C;
   --on-green: #06150d;
+  --pixel: "Silkscreen", "JetBrains Mono", monospace;
   --display: "Big Shoulders Display", "Arial Narrow", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --body: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -28,6 +31,8 @@
   --muted: #55524b;
   --faint: #68665F;
   --line: #d6d1c4;
+  --panel: #ECE8DE;
+  --panel2: #E4DFD3;
   --red: #C7260E;
   --red-deep: #f6d9d2;
   --yellow: #826200;

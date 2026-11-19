@@ -1,0 +1,87 @@
+---
+---
+<section class="screen" id="product" aria-labelledby="pipe-h">
+  <div class="wrap pipe-root" id="pipe">
+    <div class="fig"><span>fig. 03 - my product</span><span class="tag">SIMULATION</span></div>
+    <div class="pipe-head">
+      <div>
+        <h2 id="pipe-h" class="dare pipe-h">Go on.<br />Overspend.</h2>
+        <p class="cap1">My own product, founder-built and self-funded. Every plan gets a price before it runs. Over the ceiling, it plans again.</p>
+      </div>
+      <div class="spend">
+        <span class="num" data-spend>$0.00</span>
+        <span class="capl">spend · ceiling <b data-cap>$1.20</b></span>
+        <label for="ceil">ceiling <input id="ceil" data-ceil type="range" min="0.6" max="1.6" step="0.05" value="1.2" /></label>
+        <button type="button" class="force" data-force>Force the 4k upscale</button>
+      </div>
+    </div>
+    <div class="pipe">
+      <div class="gwrap"><svg viewBox="0 0 900 440" role="img" aria-label="Media pipeline: brief, script, storyboard, shots, upscale, voice-over, timeline"></svg></div>
+      <div class="phone" aria-hidden="true"><span class="plbl">output · 9:16</span>
+        <div class="screen9">
+          <div class="frames" data-frames><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="film" data-film><span class="sub">Meet the launch.</span></div>
+          <div class="wave" data-wave></div>
+          <div class="playbar"><i data-pbar></i></div>
+        </div>
+      </div>
+    </div>
+    <p class="toast mono" data-toast aria-live="polite"></p>
+    <p class="status mono">Status: in development. I'm looking for a full-time role.</p>
+    <div class="pstamp stamp-refused" data-stamp aria-live="polite"></div>
+  </div>
+</section>
+
+<script>
+  import { initPipeline } from '../scripts/product/pipeline';
+  const root = document.getElementById('pipe');
+  if (root) initPipeline(root);
+</script>
+
+<style is:global>
+  .pipe-root { position: relative; }
+  .pipe-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .pipe-h { font-size: clamp(3rem, 8vw, 7rem); margin-bottom: 14px; }
+  .spend { text-align: right; font-family: var(--mono); display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .spend .num { font-family: var(--display); font-weight: 900; font-size: clamp(3rem, 6vw, 4.6rem); line-height: .9; font-variant-numeric: tabular-nums; }
+  .spend .num.over { color: var(--red); } .spend .num.ok { color: var(--green); }
+  .spend .capl, .spend label { font-size: .75rem; color: var(--muted); }
+  .spend label { display: flex; gap: 10px; align-items: center; }
+  .spend input { accent-color: var(--yellow); width: 160px; }
+  .force { font-family: var(--mono); font-size: .8rem; background: transparent; color: var(--yellow); border: 1px solid var(--yellow); padding: 8px 12px; cursor: pointer; min-height: 40px; }
+  .force:hover { background: var(--yellow); color: var(--on-yellow); }
+  .pipe { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: center; margin-top: 28px; }
+  @media (max-width: 900px) { .pipe { grid-template-columns: minmax(0, 1fr); } }
+  .gwrap { min-width: 0; overflow-x: auto; }
+  .gwrap svg { display: block; width: 100%; min-width: 720px; height: auto; }
+  .nd rect.box { fill: var(--panel2); stroke: var(--line); stroke-width: 1.2; }
+  .nd.run rect.box { stroke: var(--yellow); stroke-width: 2; } .nd.priced rect.box { stroke: var(--faint); }
+  .nd text { font-family: var(--mono); fill: var(--fg); }
+  .nd .k { font-size: 11px; fill: var(--muted); letter-spacing: .1em; } .nd .n { font-size: 16px; font-weight: 700; } .nd .p { font-size: 11px; fill: var(--muted); }
+  .nd .price { font-size: 12px; fill: var(--yellow); font-weight: 700; }
+  .nd .prog { fill: var(--yellow); }
+  .nd.dropped { opacity: .35; } .nd .strike { stroke: var(--red); stroke-width: 3; }
+  .gwrap .edge { fill: none; stroke: var(--line); stroke-width: 1.8; transition: stroke-dashoffset .4s ease-in; }
+  .gwrap .edge.on { stroke: var(--faint); }
+  .gwrap .pk { fill: var(--yellow); }
+  .phone { width: 230px; height: 410px; border: 2px solid var(--line); border-radius: 30px; padding: 12px; background: #050506; position: relative; justify-self: center; }
+  .plbl { position: absolute; top: -26px; left: 0; right: 0; text-align: center; font-family: var(--mono); font-size: .7rem; color: var(--muted); }
+  .screen9 { position: absolute; inset: 12px; border-radius: 20px; overflow: hidden; background: #0e0e10; }
+  .frames { position: absolute; inset: 0; display: grid; grid-template-rows: repeat(6, 1fr); gap: 3px; padding: 3px; transition: opacity .4s; }
+  .frames i { display: block; border-radius: 3px; opacity: 0; transform: translateX(-40px); transition: all .35s cubic-bezier(.2,.8,.2,1); }
+  .frames i.in { opacity: .8; transform: none; }
+  .film { position: absolute; inset: 0; opacity: 0; transition: opacity .5s; background: linear-gradient(160deg, #1b2a6b, #6c2fa3 45%, #ff6a3d 90%); background-size: 260% 260%; }
+  .film.on { opacity: 1; animation: pan 6s linear infinite; }
+  @keyframes pan { from { background-position: 0% 0%; } to { background-position: 100% 100%; } }
+  .film .sub { position: absolute; left: 14px; right: 14px; bottom: 54px; font-family: var(--body); font-weight: 700; font-size: 1.05rem; color: #fff; text-shadow: 0 2px 10px #000; }
+  .wave { position: absolute; left: 10px; right: 10px; bottom: 16px; height: 26px; display: flex; align-items: center; gap: 2px; }
+  .wave i { flex: 1; background: rgba(255,255,255,.25); border-radius: 1px; }
+  .wave i.p { background: #25E08A; }
+  .playbar { position: absolute; left: 10px; right: 10px; bottom: 8px; height: 3px; background: rgba(255,255,255,.15); }
+  .playbar i { display: block; height: 100%; width: 0; background: #fff; }
+  .toast { font-size: .8rem; color: var(--red); min-height: 1.3em; margin-top: 10px; }
+  .status { font-size: .75rem; color: var(--muted); }
+  .pstamp { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%) scale(.9); font-size: clamp(2.4rem, 6vw, 5rem); text-align: center; opacity: 0; pointer-events: none; z-index: 20; text-shadow: 0 4px 30px rgba(0,0,0,.7); transition: opacity .15s, transform .15s; }
+  .pstamp.on { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  @media (prefers-reduced-motion: reduce) { .frames i, .film { transition: none; } .film.on { animation: none; } }
+</style>

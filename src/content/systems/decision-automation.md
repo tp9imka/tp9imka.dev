@@ -9,28 +9,17 @@ published: true
 
 ## Constraint
 
-Agents stall on questions. If every question comes to me, I am the bottleneck. If none
-do, the crew quietly changes the product.
+Agents stall on questions. If every question reaches me, I am the bottleneck. If none do, the crew quietly changes the product.
 
-## Architecture
+## What it refuses
 
-- **Rulings with an undo.** The driver answers inside-scope product questions itself and
-  posts `Decided for Ivan: ... - undo:`. Every ruling is appended to a rulings log the
-  crew reads. Agents ask the driver, never me.
-- **What still reaches me:** scope changes, new commitments to other teams, and anything
-  I reserved. Nothing else.
-- **Nightly re-score.** Each night the requirements board is snapshotted and diffed against
-  the night before. New stories are scored from scratch. Changed text is re-derived, and
-  criteria drift is tracked with a hash per story.
-- **Movement is split** into like-for-like progress and scope change, so a moving target
-  does not look like progress.
-- **At most 3 grouped questions a night** go to the product owner. Gaps feed the driver's
-  pickup ranking.
+- Asking me inside scope. The driver rules, posts "Decided for Ivan: ... - undo", and logs it.
+- Deciding scope changes or new commitments to other teams. Those wake me.
+- More than 3 questions a night to the product owner. Requirements are re-scored nightly, with a hash per story to catch drift.
 
 ## Outcome
 
-A decision trail I can audit and reverse, instead of a chat history nobody reads.
-Number of rulings undone: not measured yet.
+A decision trail I can audit and reverse. Rulings undone: not measured yet.
 
 ## What broke
 

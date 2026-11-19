@@ -14,8 +14,8 @@ describe('evidence', () => {
     expect(publishedEvidence(undefined, fixture).map((e) => e.id)).toEqual(['on']);
   });
   it('filters by kind', () => {
-    expect(publishedEvidence('shipper').every((e) => e.kind === 'shipper')).toBe(true);
-    expect(publishedEvidence('shipper').length).toBeGreaterThan(0);
+    expect(publishedEvidence('proof').every((e) => e.kind === 'proof')).toBe(true);
+    expect(publishedEvidence('proof').length).toBe(4);
   });
   it('uses inventory ids only, never paths', () => {
     [...evidence, ...gates].forEach((x) => expect(x.src).toMatch(ID));

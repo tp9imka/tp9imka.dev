@@ -1,0 +1,79 @@
+---
+const cmd = 'farmout run auto --kind review --brief review.md';
+---
+<section class="screen" id="open-source" aria-labelledby="arc-h">
+  <div class="wrap">
+    <div class="fig"><span>fig. 04 - farmout, open source</span><span class="tag">REPLAY</span></div>
+    <h2 id="arc-h" class="dare arc-h">farmout</h2>
+    <p class="cap1">One agent hands work to other coding agents, each in its own worktree. Real dashboard, replayed.</p>
+    <div class="install"><code id="arc-cmd">{cmd}</code><button type="button" class="force" data-copy={cmd} data-copy-target="arc-cmd">copy</button><a href="https://github.com/tp9imka/farmout">github.com/tp9imka/farmout =></a></div>
+    <div class="bezel">
+      <div class="cab" id="arcade" data-slots="6">
+        <div class="ahead"><span class="aname">FARMOUT ARCADE</span><span class="cabtag">CABINET</span>
+          <div class="st"><span>HI-SCORE<b data-hi>01234567</b></span><span>IN PLAY<b data-play>6/10</b></span><span>COINS<b data-coins>0.19 CR · 3 PR</b></span></div></div>
+        <div class="tiles" data-tiles></div>
+        <div class="hof"><h5>HALL OF FAME</h5><ol data-hof></ol></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initArcade } from '../scripts/arcade/arcade';
+  import { initCopyButtons } from '../scripts/copy';
+  const root = document.getElementById('arcade');
+  if (root) initArcade(root);
+  initCopyButtons(document.getElementById('open-source') ?? document);
+</script>
+
+<style is:global>
+  .arc-h { font-size: clamp(3rem, 8vw, 7rem); text-transform: lowercase; margin-bottom: 12px; }
+  .install { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; margin: 18px 0 30px; }
+  .install code { font-family: var(--mono); font-size: clamp(.95rem, 2vw, 1.3rem); color: var(--fg); }
+  .install code::before { content: "$ "; color: var(--red); }
+  .install a { font-family: var(--mono); font-size: .85rem; color: var(--yellow); }
+  .bezel { background: linear-gradient(#1c1c1f, #0d0d0e); border: 1px solid #2c2c30; border-radius: 22px; padding: 18px; box-shadow: inset 0 0 0 6px #0a0a0b, 0 30px 60px rgba(0,0,0,.35); overflow-x: auto; }
+  .cab { min-width: 980px; background: #0f0f10; color: #f2f2f2; font-family: var(--body); border-radius: 8px; overflow: hidden; }
+  .cab .ahead { background: #FF3B1F; display: flex; align-items: center; gap: 18px; padding: 10px 16px; color: #fff; font-family: var(--pixel); }
+  .cab .aname { font-family: var(--display); font-weight: 900; font-size: 1.7rem; }
+  .cab .cabtag { font-size: .62rem; border: 2px solid #fff; padding: 2px 7px; }
+  .cab .st { margin-left: auto; display: flex; gap: 26px; }
+  .cab .st span { display: flex; flex-direction: column; font-size: .55rem; }
+  .cab .st b { font-size: 1.05rem; font-weight: 400; font-variant-numeric: tabular-nums; }
+  .cab .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 10px; }
+  .cab .tile { border: 1.5px solid #3a3a3e; background: #141416; padding: 12px; display: flex; flex-direction: column; gap: 6px; height: 250px; position: relative; overflow: hidden; }
+  .cab .tile::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: #FF3B1F; }
+  .cab .tile.lost { border-style: dashed; } .cab .tile.lost::before { display: none; }
+  .cab .r1 { display: flex; gap: 8px; align-items: center; font-family: var(--pixel); font-size: .6rem; }
+  .cab .badge { padding: 1px 5px; } .cab .badge.ctl { background: #FF3B1F; color: #fff; } .cab .badge.ply { border: 1px solid #ddd; color: #ddd; }
+  .cab .who { font-family: var(--pixel); font-size: .85rem; }
+  .cab .score { margin-left: auto; color: #aaa; font-variant-numeric: tabular-nums; }
+  .cab .task { font-weight: 700; font-size: .98rem; line-height: 1.2; min-height: 2.4em; }
+  .cab .mid { display: flex; align-items: flex-end; justify-content: space-between; flex: 1; }
+  .cab .sub { font-family: var(--pixel); color: #777; font-size: .52rem; letter-spacing: .06em; }
+  .cab .tool { font-family: var(--pixel); color: #FF3B1F; font-size: .85rem; margin-top: 2px; }
+  .cab canvas { width: 66px; height: 72px; image-rendering: pixelated; }
+  .cab .model { font-size: .76rem; color: #bbb; } .cab .model b { font-family: var(--pixel); font-size: .55rem; color: #777; font-weight: 400; margin-right: 6px; }
+  .cab .act { font-size: .78rem; color: #ddd; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cab .sbar { display: flex; gap: 2px; } .cab .sbar i { flex: 1; height: 8px; background: #2a2a2d; } .cab .sbar i.on { background: #FF3B1F; } .cab .sbar.y i.on { background: #FFB000; }
+  .cab .foot { display: flex; justify-content: space-between; align-items: center; font-family: var(--pixel); font-size: .56rem; color: #999; }
+  .cab .pbtn { font-family: var(--pixel); font-size: .58rem; padding: 2px 7px; background: #FF3B1F; color: #fff; }
+  .cab .over { position: absolute; inset: 0; background: rgba(15,15,16,.9); display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: 20px; opacity: 0; transition: opacity .3s; pointer-events: none; }
+  .cab .tile.end .over { opacity: 1; }
+  .cab .over b { font-family: var(--pixel); font-size: 1.5rem; font-weight: 700; }
+  .cab .over span { align-self: flex-start; font-family: var(--pixel); font-size: .7rem; padding: 4px 9px; background: #fff; color: #111; }
+  .cab .over span.conflict { background: transparent; border: 2px solid #FFB000; color: #FFB000; }
+  .cab .over span.lost { background: transparent; border: 2px dashed #888; color: #aaa; }
+  .cab .hof { border-top: 1.5px solid #3a3a3e; margin: 0 10px 10px; padding: 10px 6px 4px; }
+  .cab .hof h5 { margin: 0 0 6px; font-family: var(--pixel); font-size: .8rem; color: #FF3B1F; font-weight: 400; }
+  .cab .hof ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; }
+  .cab .hof li { display: grid; grid-template-columns: 24px 74px minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 5px 0; font-size: .78rem; border-bottom: 1px solid #222; animation: hofdrop .5s ease-out; }
+  .cab .hof li .id { font-family: var(--pixel); color: #777; font-size: .58rem; } .cab .hof li .w { font-family: var(--pixel); font-size: .62rem; }
+  .cab .hof li .x { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ccc; }
+  .cab .hof li .s { font-family: var(--pixel); font-size: .56rem; padding: 1px 6px; background: #fff; color: #111; }
+  .cab .hof li .s.bad { background: transparent; border: 1px solid #FF3B1F; color: #FF3B1F; }
+  .cab .hof li .tm { font-family: var(--pixel); font-size: .58rem; color: #999; }
+  @keyframes hofdrop { from { opacity: 0; transform: translateY(-10px); background: rgba(255,59,31,.25); } to { opacity: 1; transform: none; } }
+  .flyer { position: fixed; z-index: 60; pointer-events: none; border: 2px solid #fff; background: rgba(255,59,31,.25); transition: all .7s cubic-bezier(.6,0,.3,1); }
+  @media (prefers-reduced-motion: reduce) { .cab .hof li { animation: none; } .flyer { transition: none; } }
+</style>

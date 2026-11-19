@@ -3,12 +3,20 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Flow from '../../components/Flow.astro';
 import InjectionDemo from '../../components/InjectionDemo.astro';
+import WallOfNo from '../../components/WallOfNo.astro';
 
 export async function getStaticPaths() {
   const systems = await getCollection('systems', (s) => s.data.published);
   return systems.map((s) => ({ params: { slug: s.id }, props: { entry: s } }));
 }
 
+const DARE: Record<string, string> = {
+  'delivery-crew': 'Go on. Break CI.',
+  'qa-fix-loop': 'Go on. Ship it stale.',
+  'decision-automation': 'Go on. Ask me.',
+  'agent-security': 'Go on. Read my inbox.',
+  'portable-harness': 'Go on. Change the rules.',
+};
 const FLOWS: Record<string, { label: string; gate?: boolean }[]> = {
   'delivery-crew': [{ label: 'sweep / 10 min, no LLM' }, { label: 'SHA moved?', gate: true }, { label: 'wake one role' }, { label: 'implement / review / QA' }, { label: 'red 3 heads?', gate: true }, { label: 'driver parks or merges' }],
   'qa-fix-loop': [{ label: 'bug report' }, { label: 'fingerprint, dedupe' }, { label: 'fix' }, { label: 'review' }, { label: 'QA verdict @SHA' }, { label: 'receipt matches head?', gate: true }, { label: 'merge' }],
@@ -23,22 +31,21 @@ const { Content } = await render(entry);
 <Base title={`${entry.data.title} - Ivan Antsimonau`} description={entry.data.summary}>
   <article class="wrap sys-page">
     <a class="back mono" href="/#systems">&lt;= all systems</a>
-    <p class="eyebrow">{entry.data.tag}</p>
-    <h1 class="h2">{entry.data.title}</h1>
-    <p class="lede">{entry.data.summary}</p>
-    <Flow steps={FLOWS[entry.id] ?? []} />
-    {entry.id === 'agent-security' && <InjectionDemo />}
+    <div class="fig"><span>{entry.data.title}</span><span class="tag">{entry.data.tag}</span></div>
+    <h1 class="dare sys-dare">{DARE[entry.id] ?? entry.data.title}</h1>
+    <p class="cap1">{entry.data.summary}</p>
+    {entry.id === 'agent-security' ? <InjectionDemo /> : <Flow steps={FLOWS[entry.id] ?? []} />}
     <div class="prose"><Content /></div>
   </article>
+  {entry.id === 'agent-security' && <WallOfNo />}
 </Base>
 <style>
-  .sys-page { padding-block: 56px 96px; max-width: 900px; display: flex; flex-direction: column; gap: 16px; }
+  .sys-page { padding-block: 40px 72px; max-width: 980px; display: flex; flex-direction: column; gap: 14px; }
   .back { font-size: 0.8rem; color: var(--muted); text-decoration: none; }
-  .prose { max-width: 68ch; }
-  .prose :global(h2) { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 1.8rem; margin: 36px 0 10px; }
-  .prose :global(p), .prose :global(li) { color: var(--muted); }
-  .prose :global(strong) { color: var(--fg); }
-  .prose :global(ul) { padding-left: 1.1em; display: flex; flex-direction: column; gap: 8px; }
+  .sys-dare { font-size: clamp(3rem, 9vw, 7.5rem); }
+  .prose { max-width: 68ch; margin-top: 10px; }
+  .prose :global(h2) { font-family: var(--mono); font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 30px 0 8px; font-weight: 600; }
+  .prose :global(p), .prose :global(li) { color: var(--fg); font-size: 1.02rem; }
+  .prose :global(ul) { padding-left: 1.1em; display: flex; flex-direction: column; gap: 8px; margin: 0; }
   .prose :global(em) { color: var(--faint); }
-  .prose :global(code) { font-family: var(--mono); font-size: 0.88em; color: var(--yellow); }
 </style>

@@ -26,3 +26,13 @@ html.js .js-only { display: revert; }
 html.js .no-js { display: none; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
 [hidden] { display: none !important; }
+
+.screen { position: relative; border-top: 1px solid var(--line); padding-block: 72px; overflow: hidden; }
+.fig { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 18px; }
+.fig .tag { border: 1px solid var(--line); padding: 2px 7px; letter-spacing: 0.14em; font-size: 0.62rem; }
+.dare { font-family: var(--display); font-weight: 900; text-transform: uppercase; line-height: 0.84; letter-spacing: -0.01em; margin: 0; }
+.cap1 { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); max-width: 62ch; }
+.stamp-refused { font-family: var(--display); font-weight: 900; text-transform: uppercase; color: var(--red); line-height: 0.9; }
+.stamp-refused small { display: block; font-family: var(--mono); font-weight: 700; font-size: 0.85rem; color: var(--fg); text-transform: none; margin-top: 8px; }
+.shake { animation: shake .09s steps(2) 3; }
+@keyframes shake { 0% { transform: translateX(-5px); } 100% { transform: translateX(5px); } }

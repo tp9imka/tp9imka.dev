@@ -1,0 +1,25 @@
+---
+import { refusals } from '../data/refusals';
+const rows = refusals.filter((r) => r.published);
+---
+<section class="screen" id="systems" aria-labelledby="ref-h">
+  <div class="wrap">
+    <div class="fig"><span>fig. 02 - what the crews refuse</span><span class="tag">REAL RULES</span></div>
+    <h2 id="ref-h" class="sr-only">What the crews refuse</h2>
+    <ul class="rl">
+      {rows.map((r) => (
+        <li><a href={`/systems/${r.slug}/`}><span class="ra">{r.action}</span><span class={`ro ${r.tone}`}>{r.outcome}</span><span class="go mono">=></span></a></li>
+      ))}
+    </ul>
+  </div>
+</section>
+<style>
+  .rl { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .rl a { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) 30px; gap: 8px 24px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+  @media (max-width: 720px) { .rl a { grid-template-columns: minmax(0, 1fr) 24px; } .rl .ro { grid-column: 1; } .rl .go { grid-row: 1; grid-column: 2; } }
+  .ra { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: clamp(1.5rem, 3.2vw, 2.4rem); line-height: 1; }
+  .ro { font-family: var(--mono); font-size: .9rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .ro.no { color: var(--red); } .ro.yes { color: var(--green); }
+  .go { color: var(--muted); }
+  .rl a:hover .ra { color: var(--yellow); }
+</style>

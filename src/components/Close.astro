@@ -1,0 +1,36 @@
+---
+const email = 'tp9imka@gmail.com';
+---
+<section class="screen close" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="fig"><span>fig. 06 - the end of the board</span><span class="tag">gates held <b data-gates>0</b></span></div>
+    <h2 id="close-h" class="dare close-h" data-close>Nothing merges here without proof.</h2>
+    <p class="close-sub">I build the crews and the gates.</p>
+    <div class="ctas">
+      <a class="cvbtn" href="/cv.pdf">CV - PDF, 2 pages</a>
+      <button type="button" class="mailbtn" data-copy={email}>{email}</button>
+    </div>
+    <ul class="links mono">
+      <li><a href="https://github.com/tp9imka">GitHub =></a></li>
+      <li><a href="https://www.linkedin.com/in/tp9imka">LinkedIn =></a></li>
+      <li><a href="https://pub.dev/publishers/tp9imka.dev/packages">pub.dev =></a></li>
+      <li><a href="/notes/the-pricing-storm/">A failure write-up =></a></li>
+    </ul>
+  </div>
+</section>
+<script>
+  import { pageCounter } from '../scripts/gates-counter';
+  import { closeLine } from '../scripts/close-line';
+  import { initCopyButtons } from '../scripts/copy';
+  const h = document.querySelector('[data-close]');
+  pageCounter().subscribe((n) => { if (h) h.textContent = closeLine(n); });
+  initCopyButtons(document.getElementById('contact') ?? document);
+</script>
+<style>
+  .close-h { font-size: clamp(2.6rem, 7vw, 6rem); max-width: 14ch; }
+  .close-sub { font-size: 1.2rem; color: var(--muted); margin-top: 16px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-top: 26px; }
+  .fig b { color: var(--red); }
+  .links { list-style: none; padding: 0; margin: 28px 0 0; display: flex; gap: 22px; flex-wrap: wrap; font-size: .85rem; }
+  .links a { color: var(--yellow); text-decoration: none; }
+</style>

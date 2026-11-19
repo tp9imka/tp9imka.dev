@@ -1,0 +1,53 @@
+---
+---
+<section class="screen" id="depth" aria-labelledby="leak-h">
+  <div class="wrap leak" id="leak">
+    <div class="fig"><span>fig. 05 - same habit, older work</span><span class="tag">REAL NUMBERS</span></div>
+    <h2 id="leak-h" class="sr-only">Measure, then fix</h2>
+    <div class="leak-grid">
+      <div class="leak-l">
+        <div class="lnum" data-num>3.0GB</div>
+        <p class="cap1" data-lede>One listener that was never removed held the whole screen.</p>
+        <div class="chain mono">
+          <span class="o root">GC root</span><span class="ln"></span><span class="o">AppState.listeners</span><span class="ln" data-weak></span>
+          <span class="o hot" data-f>ChatController</span><span class="ln" data-f></span><span class="o hot" data-f>ChatScreen</span><span class="ln" data-f></span><span class="o hot" data-f>ImageCache x412</span>
+        </div>
+      </div>
+      <div class="leak-r">
+        <canvas width="900" height="420" aria-hidden="true"></canvas>
+        <div class="minis mono"><span><b data-lat>10s</b>latency</span><span><b data-bat>104mA</b>battery</span></div>
+      </div>
+    </div>
+    <p class="cap1 lr">Measure, then fix. Then I built the tool for it: <a href="https://pub.dev/packages/flutter_leak_radar">flutter-leak-radar on pub.dev =></a></p>
+    <button type="button" class="force" data-replay hidden>replay</button>
+  </div>
+</section>
+
+<script>
+  import { initLeak } from '../scripts/leak/leak';
+  const root = document.getElementById('leak');
+  if (root) initLeak(root);
+</script>
+
+<style is:global>
+  .leak-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: center; }
+  @media (max-width: 900px) { .leak-grid { grid-template-columns: minmax(0, 1fr); } }
+  .lnum { font-family: var(--display); font-weight: 900; font-size: clamp(4rem, 10vw, 8.5rem); line-height: .85; color: var(--red); font-variant-numeric: tabular-nums; transition: color .3s; }
+  .lnum.fixed { color: var(--green); }
+  .leak-l .cap1 { margin: 14px 0 18px; }
+  .leak-r canvas { display: block; width: 100%; height: auto; border-bottom: 1px solid var(--line); }
+  .minis { display: flex; gap: 28px; font-size: .72rem; color: var(--muted); margin-top: 12px; }
+  .minis b { display: block; font-family: var(--display); font-weight: 900; font-size: 2.2rem; color: var(--fg); font-variant-numeric: tabular-nums; }
+  .chain { display: flex; align-items: center; flex-wrap: wrap; row-gap: 10px; font-size: .78rem; }
+  .chain .o { border: 1.5px solid var(--line); background: var(--panel2); padding: 8px 11px; transition: transform .9s cubic-bezier(.5,0,.8,.4), opacity .9s; }
+  .chain .o.root { border-color: var(--yellow); color: var(--yellow); }
+  .chain .o.hot { border-color: var(--red); color: var(--red); }
+  .chain .ln { width: 34px; height: 2px; background: var(--faint); position: relative; transition: opacity .6s; }
+  .chain .ln[data-weak].snap { background: transparent; }
+  .chain .ln[data-weak].snap::before, .chain .ln[data-weak].snap::after { content: ""; position: absolute; top: -5px; width: 2px; height: 12px; background: var(--green); }
+  .chain .ln[data-weak].snap::before { left: 8px; transform: rotate(25deg); } .chain .ln[data-weak].snap::after { right: 8px; transform: rotate(-25deg); }
+  .chain .o.fall { transform: translateY(90px) rotate(8deg); opacity: 0; }
+  .chain .ln.fall { opacity: 0; }
+  .lr { margin-top: 22px; } .lr a { color: var(--yellow); }
+  @media (prefers-reduced-motion: reduce) { .chain .o, .chain .ln { transition: none; } }
+</style>

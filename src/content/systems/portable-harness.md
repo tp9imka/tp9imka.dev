@@ -9,30 +9,17 @@ published: true
 
 ## Constraint
 
-I work on several machines and with several agent runtimes. Each one has its own config
-format, its own memory, its own idea of what the rules are. Rules that live in one tool
-die when the tool changes.
+Several machines, six agent runtimes, each with its own config and memory. Rules that live in one tool die with it.
 
-## Architecture
+## What it refuses
 
-- **One git repository is the only channel** between machines. House rules, agent
-  definitions, commands and 18 shared skills are linked into each runtime from it.
-- **One AGENTS.md, a thin shim per runtime.** Claude Code, Cursor, Kiro, Copilot, Codex and
-  a chat bot all read the same manual through their own loader.
-- **Memory stays per machine on purpose.** A scan folds each machine's memory into a shared
-  wiki with a per-machine watermark, so knowledge travels through git and nothing is
-  overwritten.
-- **The setup recipe refreshes itself** from the live machine, so a new laptop is a
-  conversation, not a weekend.
-- **Daily loops run on it:** deterministic fetchers write fact notes every morning and
-  evening, and a digest drafts my status. It is never sent automatically.
+- Rules that drift. One git repository is the only channel. One AGENTS.md, a thin shim per runtime.
+- Memory that overwrites memory. Each machine keeps its own; a watermarked scan folds it into a shared wiki.
 
 ## Outcome
 
-Six runtimes, one rule set. A rules pack of 89 always-loaded files, about 12k tokens, was
-replaced by the house rules.
+Six runtimes, one rule set, 18 shared skills. A new laptop is a conversation, not a weekend.
 
 ## What broke
 
-Polling a long command every 30 seconds burned 7.03M input tokens in 33 polls. Now long
-commands run through a quiet wrapper that wakes the agent once, on exit.
+Polling a long command every 30 seconds burned 7.03M input tokens in 33 polls. Now long commands wake the agent once, on exit.

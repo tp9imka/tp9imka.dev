@@ -7,6 +7,9 @@ import '@fontsource/jetbrains-mono/latin-700';
 import '@fontsource/inter-tight/latin-400';
 import '@fontsource/inter-tight/latin-500';
 import '@fontsource/inter-tight/latin-600';
+import '@fontsource/inter-tight/latin-700';
+import '@fontsource/silkscreen/latin-400';
+import '@fontsource/silkscreen/latin-700';
 import '../styles/global.css';
 interface Props { title: string; description: string }
 const { title, description } = Astro.props;
@@ -28,47 +31,48 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <script is:inline src="/theme-boot.js"></script>
   </head>
   <body>
-    <header class="top">
-      <div class="wrap top-in">
-        <a class="mark" href="/"><span class="name">Ivan Antsimonau</span><span class="handle">tp9imka</span></a>
-        <nav class="nav" aria-label="Main">
-          <a href="/#systems">Systems</a>
-          <a href="/#product">Product</a>
-          <a href="/#open-source">Open source</a>
-          <a href="/#contact">Contact</a>
+    <header class="strip">
+      <div class="wrap strip-in">
+        <a class="mark" href="/">tp9imka</a>
+        <span class="held mono" aria-live="polite">gates held <b data-gates>0</b></span>
+        <span class="right">
           <a class="cv" href="/cv.pdf">CV</a>
+          <button type="button" class="mail" data-copy="tp9imka@gmail.com">tp9imka@gmail.com</button>
           <button type="button" id="theme-toggle" class="js-only" aria-label="Switch theme">light</button>
-        </nav>
+        </span>
       </div>
     </header>
     <main><slot /></main>
     <footer class="foot">
       <div class="wrap foot-in">
         <span class="mono">tp9imka · Abu Dhabi · 2026</span>
-        <span class="mono">Animations on this site are simulations of real mechanisms.</span>
+        <span class="mono">Screens marked SIMULATION or REPLAY animate real mechanisms with sample data.</span>
         <a class="mono" href="https://pub.dev/publishers/tp9imka.dev/packages">pub.dev verified publisher</a>
       </div>
     </footer>
     <script>
       import { initThemeToggle } from '../scripts/theme';
+      import { initCopyButtons } from '../scripts/copy';
+      import { pageCounter } from '../scripts/gates-counter';
       initThemeToggle();
+      initCopyButtons(document.querySelector('.strip') ?? document);
+      pageCounter().subscribe((n) => document.querySelectorAll('[data-gates]').forEach((e) => { e.textContent = String(n); }));
     </script>
   </body>
 </html>
 
 <style>
-  .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-  .top-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; flex-wrap: wrap; padding-block: 8px; }
-  .mark { text-decoration: none; display: flex; align-items: baseline; gap: 10px; }
-  .name { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 1.35rem; letter-spacing: 0.01em; }
-  .handle { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
-  .nav { display: flex; align-items: center; gap: 4px 18px; flex-wrap: wrap; font-family: var(--mono); font-size: 0.8rem; }
-  .nav a { text-decoration: none; color: var(--muted); }
-  .nav a:hover { color: var(--fg); }
-  .nav .cv { color: var(--yellow); }
-  #theme-toggle { font: inherit; background: transparent; color: var(--muted); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; min-height: 32px; }
-  #theme-toggle:hover { color: var(--fg); border-color: var(--fg); }
-  @media (max-width: 640px) { .nav a:not(.cv) { display: none; } }
+  .strip { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .strip-in { display: flex; align-items: center; gap: 12px 22px; min-height: 44px; flex-wrap: wrap; font-family: var(--mono); font-size: 0.78rem; }
+  .mark { text-decoration: none; font-weight: 700; }
+  .held { color: var(--muted); }
+  .held b { color: var(--red); font-variant-numeric: tabular-nums; }
+  .right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+  .cv { color: var(--on-yellow); background: var(--yellow); text-decoration: none; padding: 3px 9px; font-weight: 700; }
+  .mail { font: inherit; background: none; border: 0; color: var(--muted); cursor: pointer; padding: 0; }
+  .mail:hover { color: var(--fg); }
+  #theme-toggle { font: inherit; background: transparent; color: var(--muted); border: 1px solid var(--line); padding: 2px 8px; cursor: pointer; }
+  @media (max-width: 560px) { .mail { display: none; } }
   .foot { border-top: 1px solid var(--line); padding-block: 28px 40px; }
   .foot-in { display: flex; flex-wrap: wrap; gap: 8px 28px; justify-content: space-between; font-size: 0.75rem; color: var(--muted); }
 </style>

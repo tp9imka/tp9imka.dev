@@ -1,0 +1,38 @@
+/* Brand: "Try to merge". Dark is the default world; light is an opt-in variant. */
+:root,
+:root[data-theme="dark"] {
+  --bg: #0B0B0C;
+  --surface: #121214;
+  --fg: #F4F1EA;
+  --muted: #9a978f;
+  --faint: #6e6c68;
+  --line: #2A2A2E;
+  --red: #FF3B1F;
+  --red-deep: #2a0a05;
+  --yellow: #FFD400;
+  --green: #25E08A;
+  --on-yellow: #0B0B0C;
+  --on-green: #06150d;
+  --display: "Big Shoulders Display", "Arial Narrow", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --body: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --gutter: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  --maxw: 1240px;
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bg: #F4F1EA;
+  --surface: #ECE8DE;
+  --fg: #0B0B0C;
+  --muted: #55524b;
+  --faint: #7d7a72;
+  --line: #d6d1c4;
+  --red: #D92A10;
+  --red-deep: #f6d9d2;
+  --yellow: #B58900;
+  --green: #0E8A55;
+  --on-yellow: #0B0B0C;
+  --on-green: #F4F1EA;
+  color-scheme: light;
+}

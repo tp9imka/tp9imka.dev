@@ -1,0 +1,74 @@
+---
+import '@fontsource/big-shoulders-display/latin-700';
+import '@fontsource/big-shoulders-display/latin-900';
+import '@fontsource/jetbrains-mono/latin-400';
+import '@fontsource/jetbrains-mono/latin-600';
+import '@fontsource/jetbrains-mono/latin-700';
+import '@fontsource/inter-tight/latin-400';
+import '@fontsource/inter-tight/latin-500';
+import '@fontsource/inter-tight/latin-600';
+import '../styles/global.css';
+interface Props { title: string; description: string }
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+---
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="theme-color" content="#0B0B0C" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline src="/theme-boot.js"></script>
+  </head>
+  <body>
+    <header class="top">
+      <div class="wrap top-in">
+        <a class="mark" href="/"><span class="name">Ivan Antsimonau</span><span class="handle">tp9imka</span></a>
+        <nav class="nav" aria-label="Main">
+          <a href="/#systems">Systems</a>
+          <a href="/#product">Product</a>
+          <a href="/#open-source">Open source</a>
+          <a href="/#contact">Contact</a>
+          <a class="cv" href="/cv.pdf">CV</a>
+          <button type="button" id="theme-toggle" class="js-only" aria-label="Switch theme">light</button>
+        </nav>
+      </div>
+    </header>
+    <main><slot /></main>
+    <footer class="foot">
+      <div class="wrap foot-in">
+        <span class="mono">tp9imka · Abu Dhabi · 2026</span>
+        <span class="mono">Animations on this site are simulations of real mechanisms.</span>
+        <a class="mono" href="https://pub.dev/publishers/tp9imka.dev/packages">pub.dev verified publisher</a>
+      </div>
+    </footer>
+    <script>
+      import { initThemeToggle } from '../scripts/theme';
+      initThemeToggle();
+    </script>
+  </body>
+</html>
+
+<style>
+  .top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .top-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; flex-wrap: wrap; padding-block: 8px; }
+  .mark { text-decoration: none; display: flex; align-items: baseline; gap: 10px; }
+  .name { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 1.35rem; letter-spacing: 0.01em; }
+  .handle { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); }
+  .nav { display: flex; align-items: center; gap: 4px 18px; flex-wrap: wrap; font-family: var(--mono); font-size: 0.8rem; }
+  .nav a { text-decoration: none; color: var(--muted); }
+  .nav a:hover { color: var(--fg); }
+  .nav .cv { color: var(--yellow); }
+  #theme-toggle { font: inherit; background: transparent; color: var(--muted); border: 1px solid var(--line); padding: 4px 10px; cursor: pointer; min-height: 32px; }
+  #theme-toggle:hover { color: var(--fg); border-color: var(--fg); }
+  @media (max-width: 640px) { .nav a:not(.cv) { display: none; } }
+  .foot { border-top: 1px solid var(--line); padding-block: 28px 40px; }
+  .foot-in { display: flex; flex-wrap: wrap; gap: 8px 28px; justify-content: space-between; font-size: 0.75rem; color: var(--muted); }
+</style>

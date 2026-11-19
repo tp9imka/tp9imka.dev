@@ -1,0 +1,22 @@
+@import "./tokens.css";
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 72px; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+img, svg { max-width: 100%; }
+a { color: inherit; text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-left: var(--gutter); padding-right: var(--gutter-r); }
+.section { padding-block: 96px; border-top: 1px solid var(--line); }
+.eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.h2 { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: clamp(2.4rem, 6vw, 4.6rem); line-height: 0.92; letter-spacing: -0.005em; }
+.lede { font-size: 1.12rem; color: var(--muted); max-width: 62ch; }
+.mono { font-family: var(--mono); }
+.simtag { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; padding: 2px 7px; border: 1px solid currentColor; opacity: 0.7; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.js-only { display: none; }
+html.js .js-only { display: revert; }
+html.js .no-js { display: none; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }

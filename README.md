@@ -11,9 +11,14 @@ ledger.
 
 ## Stack
 
-Plain static HTML/CSS. **No build step, no dependencies, no JavaScript framework** —
-one ~7 KB `index.html` with system fonts, an inline pre-paint theme script, and a
-small theme toggle. Perfect Core Web Vitals by construction.
+Astro (static output) + TypeScript. Animations are small modules bundled as
+external files, so the CSP keeps `script-src 'self'`. Fonts are self-hosted via
+@fontsource. `npm run build` builds to `dist/` and runs a leak check;
+`npm test` runs the unit tests (Vitest).
+
+Deploy: Cloudflare Workers Builds runs `npx wrangler deploy`, which runs the
+`build.command` from `wrangler.jsonc` and serves `./dist` as static assets.
+A push to `main` goes live.
 
 ## Structure
 

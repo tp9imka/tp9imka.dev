@@ -59,6 +59,6 @@ export const evidence: Evidence[] = [
     counts: 'Wing slugs with special characters, in an open-source agent memory system.' },
 ];
 
-export function publishedEvidence(kind?: EvidenceKind): Evidence[] {
-  return evidence.filter((e) => e.published && (!kind || e.kind === kind));
+export function publishedEvidence(kind?: EvidenceKind, list: Evidence[] = evidence): Evidence[] {
+  return list.filter((e) => e.published && (!kind || e.kind === kind));
 }

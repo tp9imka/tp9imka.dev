@@ -22,6 +22,7 @@ export function initProductSim(): void {
   const meter = root.querySelector('[data-meter]') as HTMLElement;
   const meterLbl = root.querySelector('[data-meter-label]') as HTMLElement;
   const status = root.querySelector('[data-status]') as HTMLElement;
+  const replay = root.querySelector('[data-replay]') as HTMLButtonElement;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let k = 0;
   let timers: number[] = [];
@@ -30,6 +31,7 @@ export function initProductSim(): void {
 
   function play(): void {
     timers.forEach(clearTimeout); timers = [];
+    replay.hidden = true;
     const sc = SCENARIOS[k++ % SCENARIOS.length];
     const run = planRun(sc.ceiling, sc.nodes);
     const kept = new Set(run.rows.map((r) => r.name));
@@ -67,7 +69,16 @@ export function initProductSim(): void {
       t += STEP_MS;
     });
     later(t, () => { status.textContent = run.rows.some((r) => r.status === 'blocked') ? 'stopped at the ceiling' : 'rendered under the ceiling'; });
-    if (!reduce) later(t + LOOP_PAUSE_MS, play);
+    // Each scenario plays once, then the visitor decides (no endless motion).
+    if (!reduce && k % SCENARIOS.length !== 0) later(t + LOOP_PAUSE_MS, play);
+    else later(t, () => { replay.hidden = false; });
   }
-  play();
+  replay.addEventListener('click', play);
+  if (reduce || !('IntersectionObserver' in window)) { play(); return; }
+  const io = new IntersectionObserver((entries) => {
+    if (!entries.some((e) => e.isIntersecting)) return;
+    io.disconnect();
+    play();
+  }, { threshold: 0.3 });
+  io.observe(root);
 }

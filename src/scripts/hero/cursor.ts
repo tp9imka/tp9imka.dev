@@ -1,3 +1,5 @@
+import { clampPoint } from './geometry';
+
 const POINTER = '<svg viewBox="0 0 20 24" aria-hidden="true"><path d="M1 1 L1 19 L6 14.5 L9.5 22 L12.5 20.8 L9 13.5 L16 13.5 Z" fill="var(--c-fill)" stroke="var(--bg)" stroke-width="1.5" stroke-linejoin="round"/></svg>';
 
 export class Cursor {
@@ -22,7 +24,9 @@ export class Cursor {
   }
 
   place(x: number, y: number): void {
-    this.el.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0)`;
+    const label = { w: this.lbl.offsetWidth + 16, h: this.lbl.offsetHeight + 18 };
+    const p = clampPoint(x, y, { w: this.stage.clientWidth, h: this.stage.clientHeight }, label);
+    this.el.style.transform = `translate3d(${Math.round(p.x)}px, ${Math.round(p.y)}px, 0)`;
   }
 
   moveTo(target: Element, text?: string, fx = 0.6, fy = 0.6): void {

@@ -1,12 +1,15 @@
-import { applyAttempt, freshPR, type Attempt, type PRState, type Verdict } from './engine';
+import { applyAttempt, freshPR, planAttempt, type Attempt, type PRState, type Verdict } from './engine';
 import { Cursor } from './cursor';
 
 const INTRO_START_MS = 600;
 const TRAVEL_MS = 800;
 const FRAME_MS = 700;
+const REST_GAP_PX = 24;
 const IDLE_AUTOPLAY_MS = 7000;
 // The intro shows push and edit-guard; idle autoplay continues with the other two first.
 const AUTOPLAY: Attempt[] = ['skip-qa', 'retry', 'push', 'edit-guard'];
+// Autoplay runs one cycle, then waits for the visitor (no endless motion).
+const AUTOPLAY_MAX = AUTOPLAY.length;
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const sha = () => Math.random().toString(16).slice(2, 8).padEnd(6, '0');
@@ -24,7 +27,7 @@ export function initHero(): void {
   const el = {
     head: $('pr-head'), ci: $('chip-ci'), review: $('chip-review'), qa: $('chip-qa'), guard: $('guard'),
     merge: $('merge'), refusal: $('refusal'), attempts: $('attempts'), card: $('pr-card'), h1: $('hero-h1'),
-    play: $('hero-play'), ticker: $('hero-ticker'),
+    play: $('hero-play'), ticker: $('hero-ticker'), live: $('hero-live'),
   };
   const targets: Record<Attempt, HTMLElement> = { push: $('pr-headwrap'), 'skip-qa': el.qa, 'edit-guard': el.guard, retry: el.ci };
   const actions: Record<Attempt, string> = {
@@ -37,6 +40,7 @@ export function initHero(): void {
   const driver = new Cursor(stage, 'Driver', '--red');
   const timers = new Timers();
   let state = freshPR('a3f9c1');
+  let count = 0;
   let idle = 0;
   let next = 0;
 
@@ -56,7 +60,6 @@ export function initHero(): void {
     el.merge.className = `merge ${s.gate === 'open' ? '' : 'shut'}`;
     el.merge.textContent = s.gate === 'open' ? 'MERGE' : s.gate === 'parked' ? 'PARKED' : 'REFUSED';
     el.refusal.textContent = s.refusal;
-    el.attempts.textContent = String(s.attempts);
     el.h1.classList.toggle('struck', s.gate !== 'open');
     if (s.gate !== 'open' && !reduce) {
       el.merge.classList.add('flash');
@@ -68,34 +71,41 @@ export function initHero(): void {
   function park(withRogue = true): void {
     const w = stage!.clientWidth;
     const h = stage!.clientHeight;
+    reviewer.label(''); qa.label(''); driver.label('');
     if (withRogue) rogue.place(w * 0.42, 36);
     reviewer.place(w - 140, h - 70);
     qa.place(w - 230, h - 40);
     driver.place(w * 0.62, h - 30);
   }
 
-  function attempt(a: Attempt, base: PRState): void {
+  function attempt(a: Attempt, byUser: boolean): void {
     timers.cancel();
     window.clearTimeout(idle);
-    const start = { ...freshPR(sha()), attempts: base.attempts };
+    const plan = planAttempt(count, a, sha);
+    count = plan.count;
+    el.attempts.textContent = String(count);
+    const frames = plan.frames;
+    const start = { ...freshPR(frames[0].head), attempts: count - 1 };
     state = start;
     render(start);
     el.ticker.textContent = `sweep ${new Date().toTimeString().slice(0, 5)} · no LLM`;
     park(false);
-    driver.label('');
     rogue.moveTo(targets[a], actions[a], 0.5, 0.5);
-    const frames = applyAttempt(start, a, sha);
     frames.forEach((f, i) => {
       timers.later(TRAVEL_MS + i * FRAME_MS, () => {
         rogue.press();
         state = f;
         render(f);
         if (f.gate === 'parked') driver.moveTo(el.merge, 'parked · re-plan', 0.7, 0.5);
+        if (byUser && f === frames[frames.length - 1]) el.live.textContent = f.refusal;
       });
     });
     timers.later(TRAVEL_MS + frames.length * FRAME_MS + 300, () => {
-      reviewer.moveTo(el.refusal, 'waiting for a new head', 0.08, 1.9);
-      qa.moveTo(el.refusal, 'verdict bound to the head', 0.08, 3.1);
+      const s = stage!.getBoundingClientRect();
+      const r = el.refusal.getBoundingClientRect();
+      const below = r.bottom - s.top + REST_GAP_PX;
+      reviewer.label('waiting for a new head'); reviewer.place(r.left - s.left, below);
+      qa.label('verdict bound to the head'); qa.place(r.left - s.left, below + REST_GAP_PX * 1.4);
       rogue.label('your move');
       armIdle();
     });
@@ -103,12 +113,12 @@ export function initHero(): void {
 
   function armIdle(): void {
     window.clearTimeout(idle);
-    if (reduce) return;
-    idle = window.setTimeout(() => attempt(AUTOPLAY[next++ % AUTOPLAY.length], state), IDLE_AUTOPLAY_MS);
+    if (reduce || next >= AUTOPLAY_MAX) return;
+    idle = window.setTimeout(() => attempt(AUTOPLAY[next++], false), IDLE_AUTOPLAY_MS);
   }
 
   document.querySelectorAll<HTMLButtonElement>('[data-attempt]').forEach((b) => {
-    b.addEventListener('click', () => attempt(b.dataset.attempt as Attempt, state));
+    b.addEventListener('click', () => attempt(b.dataset.attempt as Attempt, true));
   });
 
   state = freshPR('a3f9c1');
@@ -119,15 +129,17 @@ export function initHero(): void {
     const frames = applyAttempt(state, 'push', () => '7be204');
     state = frames[frames.length - 1];
     render(state);
+    count = state.attempts;
+    el.attempts.textContent = String(count);
     el.play.dataset.on = '1';
     return;
   }
   timers.later(INTRO_START_MS, () => {
-    attempt('push', state);
+    attempt('push', false);
     timers.later(TRAVEL_MS + FRAME_MS + 900, () => {
-      attempt('edit-guard', state);
+      attempt('edit-guard', false);
       el.play.dataset.on = '1';
     });
   });
-  window.addEventListener('resize', () => park());
+  window.addEventListener('resize', () => { if (el.play.dataset.on === '1') park(); });
 }

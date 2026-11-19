@@ -27,13 +27,14 @@ const refusals = [
           <button type="button" data-attempt="edit-guard">Edit the guard</button>
           <button type="button" data-attempt="retry">Retry until green</button>
         </div>
-        <p class="score mono" aria-live="polite">Attempts <b id="attempts">0</b> · Merged <b>0</b></p>
+        <p class="sr-only" id="hero-live" aria-live="polite"></p>
+        <p class="score mono">Attempts <b id="attempts">0</b> · Merged <b>0</b></p>
       </div>
       <ul class="no-js refusal-list">
         {refusals.map(([a, r]) => <li><b>{a}:</b> {r}</li>)}
       </ul>
     </div>
-    <div class="pr" id="pr-card" aria-live="polite">
+    <div class="pr" id="pr-card">
       <div class="pr-top mono"><span>PR #412 · crew board</span><span id="pr-headwrap">head <b id="pr-head">7be204</b></span></div>
       <p class="pr-title">fix: session restore drops drafts</p>
       <div class="chips mono">

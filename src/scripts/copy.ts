@@ -1,9 +1,9 @@
 // [data-copy] buttons copy their value; if the clipboard is refused, select the text instead.
 export function initCopyButtons(root: ParentNode = document): void {
   root.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+    const label = btn.textContent;
     btn.addEventListener('click', async () => {
       const value = btn.dataset.copy ?? '';
-      const label = btn.textContent;
       try {
         await navigator.clipboard.writeText(value);
         btn.textContent = 'Copied';

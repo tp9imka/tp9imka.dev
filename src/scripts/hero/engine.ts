@@ -68,3 +68,9 @@ export function applyAttempt(s: PRState, a: Attempt, newSha: () => string): PRSt
     }
   }
 }
+
+// Counts the attempt at click time, so rapid clicks each count even if no frame has played yet.
+export function planAttempt(count: number, a: Attempt, newSha: () => string): { frames: PRState[]; count: number } {
+  const frames = applyAttempt({ ...freshPR(newSha()), attempts: count }, a, newSha);
+  return { frames, count: count + 1 };
+}

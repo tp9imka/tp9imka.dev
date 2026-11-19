@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest';
-// @ts-expect-error plain ESM script without types
 import { scanForBanned, loadBanned } from '../scripts/leak-check.mjs';
 
 describe('scanForBanned', () => {

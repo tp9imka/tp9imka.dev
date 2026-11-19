@@ -7,10 +7,11 @@ const DASHES = /[–—]/;
 
 describe('evidence', () => {
   it('drops unpublished items', () => {
-    const hidden = evidence.filter((e) => !e.published).map((e) => e.id);
-    const shown = publishedEvidence().map((e) => e.id);
-    hidden.forEach((id) => expect(shown).not.toContain(id));
-    expect(shown.length).toBe(evidence.length - hidden.length);
+    const fixture = [
+      { ...evidence[0], id: 'on', published: true },
+      { ...evidence[0], id: 'off', published: false },
+    ];
+    expect(publishedEvidence(undefined, fixture).map((e) => e.id)).toEqual(['on']);
   });
   it('filters by kind', () => {
     expect(publishedEvidence('shipper').every((e) => e.kind === 'shipper')).toBe(true);

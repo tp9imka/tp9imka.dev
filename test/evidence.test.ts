@@ -22,6 +22,9 @@ describe('evidence', () => {
   it('has unique evidence ids', () => {
     expect(new Set(evidence.map((e) => e.id)).size).toBe(evidence.length);
   });
+  it('writes every wall action in board capitals', () => {
+    gates.forEach((g) => expect(g.action).toBe(g.action.toUpperCase()));
+  });
   it('never uses en or em dashes in copy', () => {
     evidence.forEach((e) => [e.label, e.value, e.counts].forEach((t) => expect(t).not.toMatch(DASHES)));
     gates.forEach((g) => [g.gate, g.trigger, g.action].forEach((t) => expect(t).not.toMatch(DASHES)));

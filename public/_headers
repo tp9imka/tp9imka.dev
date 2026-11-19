@@ -1,4 +1,4 @@
-# Cloudflare Pages headers — applied to every response.
+# Cloudflare Pages headers - applied to every response.
 # https://developers.cloudflare.com/pages/configuration/headers/
 /*
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests

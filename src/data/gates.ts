@@ -9,8 +9,8 @@ export type Gate = {
 };
 
 export const gates: Gate[] = [
-  { gate: 'Review verdict', trigger: 'new commit pushed', action: 'VOID, judge the new head', tone: 'no', src: 'qa-sha', published: true },
-  { gate: 'QA verdict', trigger: 'bound to an old SHA', action: 'VOID, no receipt', tone: 'no', src: 'qa-sha', published: true },
+  { gate: 'Review verdict', trigger: 'new commit pushed', action: 'VOID, JUDGE THE NEW HEAD', tone: 'no', src: 'qa-sha', published: true },
+  { gate: 'QA verdict', trigger: 'bound to an old SHA', action: 'VOID, NO RECEIPT', tone: 'no', src: 'qa-sha', published: true },
   { gate: 'Merge guard', trigger: 'check state unreadable', action: 'FAIL CLOSED', tone: 'no', src: 'sec-merge-guard', published: true },
   { gate: 'Same check red', trigger: '3 heads in a row', action: 'DRIVER PARKS, RE-PLANS', tone: 'no', src: 'crew-sweep', published: true },
   { gate: 'Red CI', trigger: 'new head', action: 'WAKE IMPLEMENTER ONCE', tone: 'no', src: 'crew-sweep', published: true },

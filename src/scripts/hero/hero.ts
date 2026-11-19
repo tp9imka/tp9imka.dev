@@ -65,10 +65,10 @@ export function initHero(): void {
     }
   }
 
-  function park(): void {
+  function park(withRogue = true): void {
     const w = stage!.clientWidth;
     const h = stage!.clientHeight;
-    rogue.place(w * 0.42, 36);
+    if (withRogue) rogue.place(w * 0.42, 36);
     reviewer.place(w - 140, h - 70);
     qa.place(w - 230, h - 40);
     driver.place(w * 0.62, h - 30);
@@ -81,6 +81,8 @@ export function initHero(): void {
     state = start;
     render(start);
     el.ticker.textContent = `sweep ${new Date().toTimeString().slice(0, 5)} · no LLM`;
+    park(false);
+    driver.label('');
     rogue.moveTo(targets[a], actions[a], 0.5, 0.5);
     const frames = applyAttempt(start, a, sha);
     frames.forEach((f, i) => {
@@ -92,8 +94,8 @@ export function initHero(): void {
       });
     });
     timers.later(TRAVEL_MS + frames.length * FRAME_MS + 300, () => {
-      reviewer.moveTo(el.review, 'waiting for a head to judge', 0.5, 1.5);
-      qa.moveTo(el.qa, 'verdict bound to the head', 0.5, 1.7);
+      reviewer.moveTo(el.refusal, 'waiting for a new head', 0.08, 1.9);
+      qa.moveTo(el.refusal, 'verdict bound to the head', 0.08, 3.1);
       rogue.label('your move');
       armIdle();
     });

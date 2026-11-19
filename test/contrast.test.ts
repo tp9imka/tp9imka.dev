@@ -12,6 +12,10 @@ const ratio = (a: string, b: string) => { const [x, y] = [lum(a), lum(b)].sort((
 const AA_SMALL = 4.5;
 
 describe('token contrast', () => {
+  it.each(['dark', 'light'])('%s: text on the yellow button meets AA', (theme) => {
+    const b = theme === 'dark' ? block(':root[data-theme="dark"]') : block(':root[data-theme="light"]');
+    expect(ratio(token(b, '--on-yellow'), token(b, '--yellow'))).toBeGreaterThanOrEqual(AA_SMALL);
+  });
   const dark = block(':root[data-theme="dark"]');
   const light = block(':root[data-theme="light"]');
   it.each(['--yellow', '--muted', '--faint', '--red', '--green'])('light %s meets AA on bg and surface', (t) => {

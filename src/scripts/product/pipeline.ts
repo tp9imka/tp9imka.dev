@@ -7,6 +7,7 @@ type GEdge = { from: string; to: string; p: SVGPathElement; len: number };
 const NS = 'http://www.w3.org/2000/svg';
 const COL = ['#5B8CFF', '#B07CFF', '#FF6A3D', '#FFD400', '#25E08A', '#F4F1EA'];
 const PAUSE_AFTER_RUN_MS = 2600;
+const STAMP_MS = 1700;
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, reduce ? 0 : ms));
 
@@ -68,18 +69,23 @@ export function initPipeline(root: HTMLElement): void {
   const setCls = (n: GNode, c: string) => n.g?.setAttribute('class', `nd ${c}`);
   async function countTo(from: number, to: number, ms: number, cls: string) { for (let s = 1; s <= 16; s++) { money(from + (to - from) * s / 16, cls); await sleep(ms / 16); } }
   function say(t: string) { toast.textContent = t; }
-  async function refuse(text: string, sub: string) {
+  let stampTimer = 0;
+  // Reduced motion shortens animation, never the time a refusal stays readable.
+  function refuse(text: string, sub: string) {
     counter.hold('pipeline');
-    stamp.innerHTML = `${text}<small>${sub}</small>`; stamp.classList.add('on'); root.classList.add('shake');
-    setTimeout(() => root.classList.remove('shake'), 300); await sleep(1700); stamp.classList.remove('on');
+    stamp.innerHTML = `${text}<small>${sub}</small>`; stamp.classList.add('on');
+    if (!reduce) { root.classList.add('shake'); setTimeout(() => root.classList.remove('shake'), 300); }
+    window.clearTimeout(stampTimer); stampTimer = window.setTimeout(() => stamp.classList.remove('on'), STAMP_MS);
   }
+  // The ceiling is policy for a run: a new value is queued and applies to the next plan.
   ceil.addEventListener('input', () => {
-    if (running) { ceil.value = String(CEIL); say('ceiling is locked for this run => it applies to the next one'); void refuse('Locked.', 'the ceiling cannot move mid-run'); return; }
-    CEIL = Number(ceil.value); capEl.textContent = `$${CEIL.toFixed(2)}`;
+    capEl.textContent = `$${Number(ceil.value).toFixed(2)}`;
+    if (running) say(`ceiling $${Number(ceil.value).toFixed(2)} => applies to the next plan`);
+    else CEIL = Number(ceil.value);
   });
   force.addEventListener('click', () => {
     const total = N.reduce((s, n) => s + n.cost, 0);
-    if (total > CEIL) void refuse('Over ceiling.', `$${total.toFixed(2)} > $${CEIL.toFixed(2)}. The 4k upscale stays out.`);
+    if (total > CEIL) refuse('Over ceiling.', `$${total.toFixed(2)} > $${CEIL.toFixed(2)}. The 4k upscale stays out.`);
     else say(`the 4k upscale fits under $${CEIL.toFixed(2)} => it runs on the next plan`);
   });
 
@@ -90,7 +96,7 @@ export function initPipeline(root: HTMLElement): void {
     frames.style.opacity = '1'; film.className = 'film'; pbar.style.width = '0'; wave.querySelectorAll('i').forEach((w) => { w.className = ''; }); money(0);
   }
   async function run() {
-    running = true; reset(); await sleep(500);
+    running = true; CEIL = Number(ceil.value); reset(); await sleep(500);
     let proj = 0;
     for (const id of ['brief', 'script', 'board', 'voice', 'shots', 'up', 'compose']) {
       const n = by[id]; setCls(n, 'priced'); if (n.cost) { n.price!.textContent = `$${n.cost.toFixed(2)}`; proj += n.cost; money(proj); } await sleep(170);

@@ -23,7 +23,7 @@ export function initLeak(root: HTMLElement): void {
   }
   async function play(): Promise<void> {
     replay.hidden = true; pts = []; num.classList.remove('fixed'); weak.classList.remove('snap'); falls.forEach((e) => e.classList.remove('fall'));
-    lede.textContent = 'One listener that was never removed held the whole screen.'; lat.textContent = '10s'; bat.textContent = '104mA';
+    lede.textContent = 'One listener that was never removed held 3.0 GB.'; lat.textContent = '10s'; bat.textContent = '104mA';
     for (let i = 0; i < CLIMB_STEPS; i++) { const v = 0.3 + 2.7 * (i / (CLIMB_STEPS - 1)) + Math.sin(i * 0.6) * 0.06; pts.push(v); num.textContent = fmt(v); draw(css('--red')); await sleep(45); }
     await sleep(400);
     weak.classList.add('snap'); lede.textContent = 'The fix: dispose the listener. The chain breaks, the screen is collected.';

@@ -1,0 +1,34 @@
+---
+const email = 'tp9imka@gmail.com';
+---
+<section class="section about" id="contact" aria-labelledby="about-h">
+  <div class="wrap about-grid">
+    <div>
+      <p class="eyebrow">About</p>
+      <h2 id="about-h" class="h2">Ivan Antsimonau.</h2>
+      <p class="lede">Principal engineer based in Abu Dhabi. 12 years shipping secure products, led teams of up to 10, and I run agent crews every day: at work, in my own product, and on my own machines. I'm looking at agentic engineering lead roles, where the job is making a crew of people and agents deliver work that can be trusted.</p>
+    </div>
+    <div class="contact">
+      <a class="btn primary" href="/cv.pdf">Download CV</a>
+      <p class="mono contact-line"><span id="about-email">{email}</span> <button type="button" class="btn ghost js-only" data-copy={email} data-copy-target="about-email">Copy</button></p>
+      <ul class="links mono">
+        <li><a href="https://www.linkedin.com/in/tp9imka">LinkedIn =></a></li>
+        <li><a href="https://github.com/tp9imka">GitHub =></a></li>
+        <li><a href="https://pub.dev/publishers/tp9imka.dev/packages">pub.dev =></a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+<script>
+  import { initCopyButtons } from '../scripts/copy';
+  initCopyButtons(document.getElementById('contact') ?? document);
+</script>
+<style>
+  .about-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 48px; align-items: end; }
+  @media (max-width: 900px) { .about-grid { grid-template-columns: minmax(0, 1fr); } }
+  .about .lede { margin-top: 20px; }
+  .contact { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
+  .contact-line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 0.95rem; }
+  .links { list-style: none; padding: 0; margin: 0; display: flex; gap: 18px; flex-wrap: wrap; font-size: 0.85rem; }
+  .links a { color: var(--yellow); text-decoration: none; }
+</style>

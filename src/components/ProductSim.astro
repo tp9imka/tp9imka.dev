@@ -1,0 +1,51 @@
+---
+---
+<section class="section" id="product" aria-labelledby="prod-h">
+  <div class="wrap prod">
+    <div>
+      <p class="eyebrow">Founder-built, self-funded</p>
+      <h2 id="prod-h" class="h2">An AI media pipeline platform.</h2>
+      <p class="lede">A visual editor and runtime for text, image, video, audio and composition nodes across many model providers. An LLM writes one plan. The engine validates it, prices it, and runs it as billed rows under a spend ceiling. One re-plan is allowed, then it stops. A nine-agent crew builds the product itself.</p>
+      <p class="prod-note mono">Design target: 1,000 videos a day.</p>
+    </div>
+    <div class="psim" id="psim">
+      <div class="psim-head mono"><span>orchestrator run</span><span class="simtag">SIMULATION</span></div>
+      <p class="psim-brief"><span class="mono k">brief</span> <span data-brief>30s product teaser, vertical, voice-over</span></p>
+      <ol class="psim-rows mono" data-rows>
+        <li class="billed"><span class="n">script / llm</span><span class="c">$0.03</span><span class="s">billed</span></li>
+        <li class="billed"><span class="n">storyboard / image x6</span><span class="c">$0.24</span><span class="s">billed</span></li>
+        <li class="billed"><span class="n">shots / video x3</span><span class="c">$0.66</span><span class="s">billed</span></li>
+        <li class="dropped"><span class="n">upscale / 4k</span><span class="c">$0.42</span><span class="s">re-plan: dropped</span></li>
+        <li class="billed"><span class="n">voice / tts</span><span class="c">$0.06</span><span class="s">billed</span></li>
+        <li class="billed"><span class="n">compose / render</span><span class="c">$0.04</span><span class="s">billed</span></li>
+      </ol>
+      <div class="meter" aria-hidden="true"><i data-meter style="width: 86%"></i></div>
+      <p class="mono psim-m" data-meter-label>spend $1.03 / ceiling $1.20</p>
+      <p class="mono psim-s" data-status aria-live="polite">rendered under the ceiling</p>
+    </div>
+  </div>
+</section>
+<script>
+  import { initProductSim } from '../scripts/product/product';
+  initProductSim();
+</script>
+<style>
+  .prod { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+  @media (max-width: 900px) { .prod { grid-template-columns: minmax(0, 1fr); } }
+  .prod .lede { margin-top: 20px; }
+  .prod-note { margin-top: 18px; font-size: 0.82rem; color: var(--yellow); }
+  .psim { border: 1px solid var(--line); background: var(--surface); padding: 18px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .psim-head { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); }
+  .psim-brief { font-size: 1rem; }
+  .psim-brief .k { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-right: 6px; }
+  .psim-rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; font-size: 0.8rem; }
+  .psim-rows :global(li) { display: grid; grid-template-columns: minmax(0, 1fr) 60px minmax(0, 1fr); gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--line); color: var(--muted); }
+  .psim-rows :global(li .c) { text-align: right; font-variant-numeric: tabular-nums; }
+  .psim-rows :global(li.billed) { color: var(--fg); }
+  .psim-rows :global(li.billed .s) { color: var(--green); }
+  .psim-rows :global(li.dropped) { text-decoration: line-through; color: var(--faint); }
+  .psim-rows :global(li.blocked .s) { color: var(--red); font-weight: 700; }
+  .meter { height: 8px; background: var(--line); }
+  .meter i { display: block; height: 100%; background: var(--yellow); transition: width .4s; }
+  .psim-m, .psim-s { font-size: 0.78rem; color: var(--muted); }
+</style>

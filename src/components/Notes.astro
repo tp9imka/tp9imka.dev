@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+const notes = (await getCollection('notes')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<section class="section" id="notes" aria-labelledby="notes-h">
+  <div class="wrap">
+    <p class="eyebrow">Notes</p>
+    <h2 id="notes-h" class="h2">Write-ups.</h2>
+    {notes.length === 0
+      ? <p class="lede" style="margin-top:20px">Nothing published yet. First note: how a verdict expires.</p>
+      : <ul class="notes">{notes.map((n) => <li><a href={`/notes/${n.id}/`}>{n.data.title}</a><span class="mono">{n.data.date.toISOString().slice(0, 10)}</span><p>{n.data.summary}</p></li>)}</ul>}
+  </div>
+</section>
+<style>
+  .notes { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-direction: column; gap: 18px; }
+  .notes a { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 1.6rem; text-decoration: none; }
+  .notes span { display: block; font-size: 0.75rem; color: var(--muted); }
+  .notes p { color: var(--muted); }
+</style>

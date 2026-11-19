@@ -52,7 +52,7 @@ const refusals = [
   import { initHero } from '../scripts/hero/hero';
   import { initCopyButtons } from '../scripts/copy';
   initHero();
-  initCopyButtons();
+  initCopyButtons(document.getElementById('hero') ?? document);
 </script>
 
 <style is:global>

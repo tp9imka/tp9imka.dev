@@ -1,0 +1,28 @@
+---
+import { publishedEvidence } from '../data/evidence';
+const perf = publishedEvidence('depth');
+---
+<section class="section" aria-labelledby="depth-h">
+  <div class="wrap depth">
+    <div>
+      <p class="eyebrow">Depth underneath</p>
+      <h2 id="depth-h" class="h2">12 years of shipping secure products.</h2>
+      <p class="lede">Ten years of native Android down to the platform level, then multiplatform Flutter on desktop and mobile: encrypted storage, key derivation, biometrics, on-device inference. I led a team of up to 10 people. Mobile is a domain I ship into now. The habit it left is measuring before claiming.</p>
+      <p class="lede" style="margin-top:14px">The same habit runs a spec-driven Rust programme: an autonomous driver over 31 plans and 24 ADRs, 1,184 tests passing.</p>
+    </div>
+    <div class="perf">
+      {perf.map((e) => (
+        <div class="perf-row"><span class="perf-v">{e.value}</span><span class="perf-l mono">{e.label}</span></div>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .depth { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 48px; align-items: end; }
+  @media (max-width: 900px) { .depth { grid-template-columns: minmax(0, 1fr); } }
+  .depth .lede { margin-top: 20px; }
+  .perf { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+  .perf-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .perf-v { font-family: var(--display); font-weight: 900; font-size: 2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .perf-l { font-size: 0.78rem; color: var(--muted); }
+</style>

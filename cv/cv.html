@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ivan Antsimonau - Principal Engineer, Agentic Engineering</title>
+<style>
+  @page { size: A4; margin: 14mm 15mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Inter Tight", "Helvetica Neue", Arial, sans-serif; font-size: 9.6pt; line-height: 1.42; color: #111; margin: 0; }
+  h1 { font-size: 22pt; margin: 0; letter-spacing: -0.01em; }
+  .role { font-size: 11pt; font-weight: 600; margin-top: 2px; }
+  .contact { font-family: Menlo, monospace; font-size: 8pt; color: #444; margin-top: 4px; }
+  h2 { font-size: 9pt; text-transform: uppercase; letter-spacing: 0.12em; border-bottom: 1.5px solid #111; padding-bottom: 2px; margin: 13px 0 6px; }
+  h3 { font-size: 10pt; margin: 8px 0 1px; display: flex; justify-content: space-between; gap: 8px; }
+  h3 span { font-weight: 400; color: #555; font-size: 8.6pt; white-space: nowrap; }
+  .co { color: #555; font-size: 8.8pt; margin: 0 0 3px; }
+  ul { margin: 2px 0 0; padding-left: 14px; }
+  li { margin: 1.5px 0; }
+  p { margin: 0; }
+  .skills p { margin: 2px 0; }
+  .skills b { font-weight: 600; }
+  .break { break-before: page; }
+</style>
+</head>
+<body>
+  <h1>Ivan Antsimonau</h1>
+  <p class="role">Principal Engineer - Agentic Engineering / Agent Platform</p>
+  <p class="contact">Abu Dhabi, UAE · tp9imka@gmail.com · linkedin.com/in/tp9imka · tp9imka.dev · github.com/tp9imka</p>
+
+  <h2>Summary</h2>
+  <p>Principal engineer with 12+ years shipping secure products. I run software delivery with agent crews every day and build the control layer that makes them safe to trust: deterministic orchestration, verdicts bound to a commit, merge gates that fail closed, tool-permission policy with audit logs, and spend ceilings. Founder of a self-funded AI media pipeline platform. Led engineering teams of up to 10 people.</p>
+
+  <h2>Agentic systems</h2>
+  <ul>
+    <li><b>Delivery crew.</b> Designed and run a multi-role agent crew (driver, orchestrator, implementer, reviewer, QA, checker, release, inbox, health) across three model runtimes on a self-hosted orchestration platform. A deterministic PR sweep with no LLM in it runs every 10 minutes, tracks the reviewed SHA, wakes one role once per head, and escalates after 2-3 red heads. The driver agent closed 57 of 86 issues under a delivery-speed bar.</li>
+    <li><b>QA-fix automation.</b> Bug reports are fingerprinted and deduplicated into one issue; fixes go through review and a QA verdict bound to the exact head SHA, voided by any new commit; the merge gate requires a validation receipt. One PR shipped 11 QA-confirmed defects with 16,522 tests passing.</li>
+    <li><b>Decision automation.</b> A proxy agent rules on in-scope product questions, posts each ruling with an undo and logs it; only scope changes and new commitments escalate. Nightly requirements re-scoring diffs the board, tracks criteria drift by hash, and sends at most 3 grouped questions a night.</li>
+    <li><b>Agent security.</b> PreToolUse policy hook for an inbox agent (allowlisted tools, folder-scoped reads, message text treated as data, 1-1 send rule enforced twice, audit log). PR merge guard that fails closed. AI assistant as a visible member of end-to-end encrypted (MLS) groups with its own key, read-only tools and cryptographic revocation.</li>
+    <li><b>Spec-driven programme.</b> Drove a Rust secure-messaging core from 31 plans and 24 ADRs through an autonomous driver: 4 to 16 crates, 1,184 tests passing.</li>
+    <li><b>Portable harness.</b> One git-synced knowledge base and rule set across six agent runtimes (Claude Code, Codex, Kiro, Cursor, Copilot, a chat bot) and several machines; 18 shared skills; per-machine memory folded into a shared wiki.</li>
+  </ul>
+
+  <h2>Experience</h2>
+  <h3>Founder - AI media pipeline platform (self-funded) <span>Aug 2026 - present</span></h3>
+  <ul>
+    <li>Architecture and technical lead of a visual editor and runtime for text, image, video, audio and composition nodes over multiple model providers. Design target: 1,000 videos a day.</li>
+    <li>LLM orchestrator node: the model writes one plan, the engine validates and prices it, calls run as billed rows under a spend ceiling, with one re-plan allowed.</li>
+    <li>A nine-agent crew with scheduled autopilots builds the product; QA verdicts bound to the head SHA gate every merge.</li>
+  </ul>
+
+  <h3>Principal Software Engineer - KATIM, Abu Dhabi <span>Oct 2023 - present</span></h3>
+  <p class="co">Secure communications: encrypted platforms and devices for enterprise and government.</p>
+  <ul>
+    <li>Built and run the agent delivery crew, QA automation, decision proxy and agent-security controls described above.</li>
+    <li>On-device LLM inference (llama.cpp) and an AI assistant inside an end-to-end encrypted client.</li>
+    <li>Cut message delivery latency from ~10s to ~200ms under load; memory from ~3GB to ~200MB; background battery from ~104mA to ~18mA.</li>
+    <li>Designed a reusable onboarding module adopted across 4 products; introduced modular architecture; led a cross-functional team of 8.</li>
+  </ul>
+
+  <h3 class="break">Senior Software Engineer - KATIM <span>Jan 2023 - Oct 2023</span></h3>
+  <ul>
+    <li>Designed a modular Flutter architecture from scratch with reusable libraries; first release shipped 2 months ahead of schedule.</li>
+    <li>CI-based localization pipeline: a ~1 week cycle reduced to seconds.</li>
+  </ul>
+
+  <h3>Senior Software Engineer - Digital14, Abu Dhabi <span>Jan 2021 - Jan 2023</span></h3>
+  <ul>
+    <li>Performance measurement tooling for database and business-logic layers at high data volume.</li>
+    <li>Led an Android team of up to 8; ~20 AOSP-level fixes and customizations.</li>
+  </ul>
+
+  <h3>Lead Android Developer - ScienceSoft, Minsk <span>Mar 2019 - Jan 2021</span></h3>
+  <ul>
+    <li>Led an Android team of up to 10; MVC to MVVM migration; Android expert in RFPs; technical interviews.</li>
+  </ul>
+
+  <h3>Android Engineer to Senior Android Engineer - ScienceSoft <span>Aug 2014 - Mar 2019</span></h3>
+
+  <h2>Open source</h2>
+  <ul>
+    <li><b>farmout</b> - one agent runs other coding-agent CLIs in isolated worktrees, with stall detection, cross-review and reviewable results.</li>
+    <li><b>agents</b> - AGENTS.md templates for nine stacks, built from 623 sources. <b>llm-skills</b> - skills for coding agents.</li>
+    <li><b>navigation-index</b> - agent-built knowledge base with a measured error rate (8.3% in a seeded sample of 60).</li>
+    <li><b>device-link</b> - E2EE clipboard relay on HPKE/HKDF, verified against RFC test vectors, 52 contract tests.</li>
+    <li><b>flutter-leak-radar</b> - 7 packages on pub.dev (verified publisher tp9imka.dev). Upstream fix merged in MemPalace (#1852).</li>
+  </ul>
+
+  <h2>Skills</h2>
+  <div class="skills">
+    <p><b>Agentic engineering:</b> multi-agent orchestration, agent harnesses, MCP, tool permissioning and sandboxing, hooks, evals and verification gates, CI integration, spend control, Claude Code, Codex, Kiro, Cursor.</p>
+    <p><b>Engineering:</b> system design, Rust, Go, TypeScript, Python, Kotlin, Java, Dart/Flutter, Android (AOSP), PostgreSQL, SQLCipher, Docker, Cloudflare.</p>
+    <p><b>Security:</b> E2EE (MLS, HPKE), key derivation, runtime application self-protection, audit logging.</p>
+    <p><b>Leadership:</b> led teams of up to 10, technical interviews, RFPs, mentoring.</p>
+  </div>
+
+  <h2>Education and languages</h2>
+  <p>Belarusian State University, Faculty of Mechanics and Mathematics, 2012. Russian (native), English (B2).</p>
+</body>
+</html>

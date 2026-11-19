@@ -5,6 +5,10 @@
   "name": "tp9imka-dev",
   "compatibility_date": "2026-06-24",
   "build": { "command": "npm run build" },
+  "routes": [
+    { "pattern": "tp9imka.dev", "custom_domain": true },
+    { "pattern": "www.tp9imka.dev", "custom_domain": true }
+  ],
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page"

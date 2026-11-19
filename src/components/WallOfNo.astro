@@ -1,0 +1,41 @@
+---
+import { gates } from '../data/gates';
+const rows = gates.filter((g) => g.published);
+---
+<section class="section wall-sec" aria-labelledby="wall-h">
+  <div class="wrap">
+    <p class="eyebrow">The wall of no</p>
+    <h2 id="wall-h" class="h2">Every shortcut has a gate.</h2>
+    <p class="lede">These are real rules from the crews I run, not a demo. A no needs a gate. A yes needs an undo.</p>
+    <div class="board-scroll">
+      <table class="board" id="wall">
+        <thead><tr><th>Gate</th><th>Trigger</th><th>Action</th></tr></thead>
+        <tbody>
+          {rows.map((g, i) => (
+            <tr class={g.tone}>
+              <td data-flap data-row={i} data-text={g.gate.toUpperCase()}>{g.gate.toUpperCase()}</td>
+              <td data-flap data-row={i} data-text={g.trigger.toUpperCase()}>{g.trigger.toUpperCase()}</td>
+              <td data-flap data-row={i} data-text={g.action}>{g.action}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<script>
+  import { initWall } from '../scripts/flap';
+  initWall();
+</script>
+<style>
+  .board-scroll { overflow-x: auto; margin-top: 36px; border: 1px solid var(--line); }
+  .board { width: 100%; min-width: 720px; border-collapse: collapse; font-family: var(--mono); background: #070708; color: #F4F1EA; }
+  :global(:root[data-theme="light"]) .board { background: #111113; }
+  .board th { text-align: left; font-size: 0.68rem; letter-spacing: 0.14em; color: #8d8b86; font-weight: 400; padding: 12px 16px; border-bottom: 1px solid #2A2A2E; }
+  .board td { padding: 13px 16px; border-bottom: 1px solid #1c1c1f; font-size: 0.9rem; letter-spacing: 0.06em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .board tr:last-child td { border-bottom: 0; }
+  .board td:nth-child(3) { color: #FF3B1F; font-weight: 700; }
+  .board tr.yes td:nth-child(3) { color: #25E08A; }
+  .board tr.owed td { color: #6e6c68; }
+  .board tr.owed td:nth-child(3) { color: #FFD400; }
+</style>

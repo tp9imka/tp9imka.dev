@@ -1,0 +1,27 @@
+---
+import { publishedEvidence } from '../data/evidence';
+const items = [...publishedEvidence('shipper'), ...publishedEvidence('owed').slice(0, 1)];
+---
+<section class="ship" aria-label="What the crews ship">
+  <div class="wrap ship-grid">
+    {items.map((e) => (
+      <div class={`ship-cell ${e.kind}`}>
+        <span class="ship-v">{e.value}</span>
+        <span class="ship-l">{e.label}</span>
+        <span class="ship-c">{e.counts}</span>
+      </div>
+    ))}
+  </div>
+</section>
+<style>
+  .ship { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface); }
+  .ship-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .ship-cell { padding: 26px 20px 26px 0; display: flex; flex-direction: column; gap: 6px; border-right: 1px solid var(--line); padding-left: 20px; min-width: 0; }
+  .ship-cell:first-child { padding-left: 0; }
+  .ship-cell:last-child { border-right: 0; }
+  @media (max-width: 520px) { .ship-cell { border-right: 0; border-bottom: 1px solid var(--line); padding-left: 0; } }
+  .ship-v { font-family: var(--display); font-weight: 900; font-size: clamp(2.2rem, 4vw, 3.2rem); line-height: 1; text-transform: uppercase; color: var(--green); font-variant-numeric: tabular-nums; }
+  .owed .ship-v { color: var(--faint); font-size: clamp(1.4rem, 2.6vw, 1.9rem); }
+  .ship-l { font-family: var(--mono); font-size: 0.8rem; color: var(--fg); }
+  .ship-c { font-size: 0.88rem; color: var(--muted); }
+</style>

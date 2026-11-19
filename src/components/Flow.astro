@@ -1,0 +1,20 @@
+---
+// Static flow diagram: a row of labelled steps; a step marked `gate` is drawn as a refusal point.
+interface Step { label: string; gate?: boolean }
+interface Props { steps: Step[] }
+const { steps } = Astro.props;
+---
+<div class="flow" role="img" aria-label={steps.map((s) => s.label).join(' then ')}>
+  {steps.map((s, i) => (
+    <>
+      <span class={`node mono ${s.gate ? 'gate' : ''}`}>{s.label}</span>
+      {i < steps.length - 1 && <span class="arrow mono" aria-hidden="true">=></span>}
+    </>
+  ))}
+</div>
+<style>
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-block: 24px 8px; }
+  .node { border: 1px solid var(--line); background: var(--surface); padding: 8px 12px; font-size: 0.8rem; }
+  .node.gate { border-color: var(--red); color: var(--red); background: transparent; }
+  .arrow { color: var(--faint); font-size: 0.8rem; }
+</style>

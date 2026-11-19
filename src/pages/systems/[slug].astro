@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Flow from '../../components/Flow.astro';
+import InjectionDemo from '../../components/InjectionDemo.astro';
+
+export async function getStaticPaths() {
+  const systems = await getCollection('systems', (s) => s.data.published);
+  return systems.map((s) => ({ params: { slug: s.id }, props: { entry: s } }));
+}
+
+const FLOWS: Record<string, { label: string; gate?: boolean }[]> = {
+  'delivery-crew': [{ label: 'sweep / 10 min, no LLM' }, { label: 'SHA moved?', gate: true }, { label: 'wake one role' }, { label: 'implement / review / QA' }, { label: 'red 3 heads?', gate: true }, { label: 'driver parks or merges' }],
+  'qa-fix-loop': [{ label: 'bug report' }, { label: 'fingerprint, dedupe' }, { label: 'fix' }, { label: 'review' }, { label: 'QA verdict @SHA' }, { label: 'receipt matches head?', gate: true }, { label: 'merge' }],
+  'decision-automation': [{ label: 'agent question' }, { label: 'inside scope?', gate: true }, { label: 'driver rules, posts undo' }, { label: 'rulings log' }, { label: 'scope change => wake Ivan' }],
+  'agent-security': [{ label: 'message in' }, { label: 'text is data' }, { label: 'tool call' }, { label: 'allowlist hook', gate: true }, { label: 'audit log' }, { label: 'send only 1-1', gate: true }],
+  'portable-harness': [{ label: 'one git repo' }, { label: 'AGENTS.md + shims' }, { label: '6 runtimes' }, { label: 'per-machine memory' }, { label: 'watermarked fold' }, { label: 'shared wiki' }],
+};
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<Base title={`${entry.data.title} - Ivan Antsimonau`} description={entry.data.summary}>
+  <article class="wrap sys-page">
+    <a class="back mono" href="/#systems">&lt;= all systems</a>
+    <p class="eyebrow">{entry.data.tag}</p>
+    <h1 class="h2">{entry.data.title}</h1>
+    <p class="lede">{entry.data.summary}</p>
+    <Flow steps={FLOWS[entry.id] ?? []} />
+    {entry.id === 'agent-security' && <InjectionDemo />}
+    <div class="prose"><Content /></div>
+  </article>
+</Base>
+<style>
+  .sys-page { padding-block: 56px 96px; max-width: 900px; display: flex; flex-direction: column; gap: 16px; }
+  .back { font-size: 0.8rem; color: var(--muted); text-decoration: none; }
+  .prose { max-width: 68ch; }
+  .prose :global(h2) { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 1.8rem; margin: 36px 0 10px; }
+  .prose :global(p), .prose :global(li) { color: var(--muted); }
+  .prose :global(strong) { color: var(--fg); }
+  .prose :global(ul) { padding-left: 1.1em; display: flex; flex-direction: column; gap: 8px; }
+  .prose :global(em) { color: var(--faint); }
+  .prose :global(code) { font-family: var(--mono); font-size: 0.88em; color: var(--yellow); }
+</style>
